@@ -136,7 +136,7 @@ export default function LandingPage() {
 
       {/* Features Section */}
       <section className="container mx-auto px-6 md:px-8 lg:px-12 py-7 md:py-10">
-        <div className="flex flex-col-reverse lg:flex-row gap-16 items-center max-w-6xl mx-auto">
+        <div className="flex flex-col-reverse lg:flex-row gap-16 items-center lg:px-10">
           {/* Left Side - Video */}
           <div className="relative flex justify-center lg:justify-start">
             <div className="relative">

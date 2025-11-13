@@ -20,10 +20,10 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-6 md:px-8 lg:px-12 py-10 md:py-24 lg:py-10">
+      <section className="container mx-auto px-6 md:px-8 lg:px-12 py-7 md:py-10 lg:py-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center min-h-[600px]">
           {/* Left Side - Text Content */}
-          <div className="text-white space-y-8 relative z-10 px-4 md:px-0">
+          <div className="text-white tec space-y-8 relative z-10 px-4 md:px-0">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
               All Your Links
               <br />
@@ -46,12 +46,12 @@ export default function LandingPage() {
 
             <div className="flex items-center gap-6 pt-4">
               <div>
-                <div className="text-3xl font-bold">10K+</div>
+                <div className="text-3xl font-bold">100+</div>
                 <div className="text-blue-300 text-sm">Active Users</div>
               </div>
               <div className="w-px h-12 bg-blue-700"></div>
               <div>
-                <div className="text-3xl font-bold">50K+</div>
+                <div className="text-3xl font-bold">500+</div>
                 <div className="text-blue-300 text-sm">Links Shared</div>
               </div>
             </div>
@@ -135,13 +135,13 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-6 md:px-8 lg:px-12 py-20 md:py-32">
-        <div className="grid lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+      <section className="container mx-auto px-6 md:px-8 lg:px-12 py-7 md:py-10">
+        <div className="flex flex-col-reverse lg:flex-row gap-16 items-center max-w-6xl mx-auto">
           {/* Left Side - Video */}
           <div className="relative flex justify-center lg:justify-start">
             <div className="relative">
               {/* Video Container */}
-              <div className="relative w-80 h-[600px] bg-gray-900 rounded-[3rem] p-4 shadow-2xl border-8 border-gray-800 overflow-hidden">
+              <div className="relative w-full md:w-96 h-[650px] bg-gray-900 rounded-[3rem] p-4 shadow-2xl border-8 border-gray-800 overflow-hidden">
                 {/* Video */}
                 <video
                   autoPlay
@@ -174,7 +174,7 @@ export default function LandingPage() {
 
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-yellow-400 text-gray-900 text-lg font-bold rounded-full hover:bg-yellow-300 transition shadow-lg hover:shadow-xl"
+              className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-yellow-400 text-gray-900 text-lg font-bold rounded-full hover:bg-yellow-300 transition shadow-lg hover:shadow-xl"
             >
               Get started for free
               <ArrowRight className="w-5 h-5" />

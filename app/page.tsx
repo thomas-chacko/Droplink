@@ -31,13 +31,13 @@ export default function LandingPage() {
               <br />
               Share Everywhere
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-blue-200 max-w-xl leading-relaxed">
               Connect all your social profiles, portfolio, and content with a single customizable link
             </p>
-            
-            <Link 
-              href="/signup" 
+
+            <Link
+              href="/signup"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-900 text-lg font-bold rounded-xl hover:bg-blue-50 transition shadow-2xl hover:shadow-blue-500/50 hover:scale-105 transform"
             >
               Start Free
@@ -73,21 +73,21 @@ export default function LandingPage() {
                   <Instagram className="w-7 h-7 text-white" />
                 </div>
               </div>
-              
+
               {/* Facebook */}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
                 <div className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                   <Facebook className="w-7 h-7 text-white" />
                 </div>
               </div>
-              
+
               {/* Twitter */}
               <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="w-14 h-14 bg-sky-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                   <Twitter className="w-7 h-7 text-white" />
                 </div>
               </div>
-              
+
               {/* LinkedIn */}
               <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2">
                 <div className="w-14 h-14 bg-blue-700 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
@@ -104,21 +104,21 @@ export default function LandingPage() {
                   <Youtube className="w-7 h-7 text-white" />
                 </div>
               </div>
-              
+
               {/* GitHub */}
               <div className="absolute bottom-8 left-1/2 -translate-x-1/2 translate-y-1/2">
                 <div className="w-14 h-14 bg-gray-800 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                   <Github className="w-7 h-7 text-white" />
                 </div>
               </div>
-              
+
               {/* WhatsApp */}
               <div className="absolute left-8 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                   <MessageCircle className="w-7 h-7 text-white" />
                 </div>
               </div>
-              
+
               {/* Link Icon */}
               <div className="absolute right-8 top-1/2 translate-x-1/2 -translate-y-1/2">
                 <div className="w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
@@ -135,24 +135,50 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-6 md:px-8 lg:px-12 py-10 md:py-28">
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 hover:bg-white/15 transition">
-            <div className="text-4xl mb-4">🔗</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Unlimited Links</h3>
-            <p className="text-blue-200">Add all your social profiles and content in one place</p>
+      <section className="container mx-auto px-6 md:px-8 lg:px-12 py-20 md:py-32">
+        <div className="grid lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+          {/* Left Side - Video */}
+          <div className="relative flex justify-center lg:justify-start">
+            <div className="relative">
+              {/* Video Container */}
+              <div className="relative w-80 h-[600px] bg-gray-900 rounded-[3rem] p-4 shadow-2xl border-8 border-gray-800 overflow-hidden">
+                {/* Video */}
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover rounded-[2.5rem]"
+                >
+                  <source src="/videos/video.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
           </div>
-          
-          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 hover:bg-white/15 transition">
-            <div className="text-4xl mb-4">🎨</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Custom Themes</h3>
-            <p className="text-blue-200">Personalize your page with colors that match your brand</p>
-          </div>
-          
-          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 hover:bg-white/15 transition">
-            <div className="text-4xl mb-4">📊</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Track Analytics</h3>
-            <p className="text-blue-200">See how your audience engages with your content</p>
+
+          {/* Right Side - Feature Text */}
+          <div className="text-white space-y-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+              Create and customize
+              <br />
+              <span className="text-yellow-400">your Droplink</span>
+              <br />
+              in minutes
+            </h2>
+
+            <p className="text-xl text-blue-200 leading-relaxed">
+              Connect all your content across social media, websites, stores and more in one link in bio.
+              Customize every detail or let Droplink automatically enhance it to match your brand and drive more clicks.
+            </p>
+
+            <Link
+              href="/signup"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-yellow-400 text-gray-900 text-lg font-bold rounded-full hover:bg-yellow-300 transition shadow-lg hover:shadow-xl"
+            >
+              Get started for free
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
@@ -166,14 +192,14 @@ export default function LandingPage() {
             </div>
             <span className="text-lg font-bold text-white">Droplink</span>
           </div>
-          
+
           <div className="flex gap-8 text-blue-200">
             <Link href="#" className="hover:text-white transition">About</Link>
             <Link href="#" className="hover:text-white transition">Privacy</Link>
             <Link href="#" className="hover:text-white transition">Terms</Link>
             <Link href="#" className="hover:text-white transition">Contact</Link>
           </div>
-          
+
           <p className="text-blue-300 text-sm">© 2024 Droplink. All rights reserved.</p>
         </div>
       </footer>

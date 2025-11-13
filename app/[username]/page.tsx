@@ -1,4 +1,4 @@
-import { Instagram, Twitter, Youtube, Globe, Github, Linkedin } from 'lucide-react';
+import { Instagram, Facebook, Twitter, Youtube, Github, Linkedin } from 'lucide-react';
 
 // Mock data - will be replaced with real data later
 const mockUserData = {
@@ -22,8 +22,9 @@ const mockUserData = {
 };
 
 const iconMap = {
-  globe: Globe,
+  globe: () => <span className="text-2xl">🌐</span>,
   instagram: Instagram,
+  facebook: Facebook,
   twitter: Twitter,
   youtube: Youtube,
   github: Github,
@@ -31,26 +32,19 @@ const iconMap = {
 };
 
 export default function PublicProfilePage() {
-  const user = mockUserData; // In real app, fetch based on dynamic route params
+  const user = mockUserData;
   const { theme } = user;
 
-  const bgClass =
-    theme.bgStyle === 'light'
-      ? 'bg-gray-50'
-      : theme.bgStyle === 'dark'
-      ? 'bg-gray-900'
-      : 'bg-linear-to-br from-blue-500 via-purple-600 to-pink-500';
-
-  const isDarkTheme = theme.bgStyle === 'dark' || theme.bgStyle === 'gradient';
-  const textClass = isDarkTheme ? 'text-white' : 'text-gray-900';
-  const subtextClass = isDarkTheme ? 'text-gray-300' : 'text-gray-600';
+  const bgClass = 'bg-linear-to-br from-purple-900 via-blue-900 to-indigo-900';
+  const textClass = 'text-white';
+  const subtextClass = 'text-blue-200';
 
   return (
-    <div className={`min-h-screen ${bgClass} flex items-center justify-center p-4`}>
+    <div className={`min-h-screen ${bgClass} flex items-center justify-center p-6`}>
       <div className="w-full max-w-2xl">
         {/* Profile Header */}
         <div className="text-center mb-8">
-          <div className="w-24 h-24 mx-auto bg-white rounded-full mb-4 shadow-lg"></div>
+          <div className="w-24 h-24 mx-auto bg-linear-to-br from-blue-500 to-purple-600 rounded-full mb-4 shadow-2xl"></div>
           <h1 className={`text-3xl font-bold ${textClass} mb-2`}>@{user.username}</h1>
           <p className={`${subtextClass} max-w-md mx-auto`}>{user.bio}</p>
         </div>
@@ -58,7 +52,7 @@ export default function PublicProfilePage() {
         {/* Links */}
         <div className="space-y-4">
           {user.links.map((link) => {
-            const Icon = iconMap[link.icon as keyof typeof iconMap] || Globe;
+            const IconComponent = iconMap[link.icon as keyof typeof iconMap];
             
             return (
               <a
@@ -66,16 +60,14 @@ export default function PublicProfilePage() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`block p-5 rounded-2xl font-medium transition transform hover:scale-105 hover:shadow-xl ${
-                  theme.bgStyle === 'gradient'
-                    ? 'bg-white/20 backdrop-blur-md text-white hover:bg-white/30'
-                    : theme.bgStyle === 'dark'
-                    ? 'bg-gray-800 text-white hover:bg-gray-700'
-                    : 'bg-white text-gray-900 hover:bg-gray-50 shadow-md'
-                }`}
+                className="block p-5 rounded-2xl font-medium transition transform hover:scale-105 bg-white/10 backdrop-blur-md text-white hover:bg-white/20 border border-white/20 shadow-lg"
               >
                 <div className="flex items-center justify-center gap-3">
-                  <Icon className="w-5 h-5" />
+                  {typeof IconComponent === 'function' && IconComponent !== iconMap.globe ? (
+                    <IconComponent className="w-5 h-5" />
+                  ) : (
+                    IconComponent()
+                  )}
                   <span>{link.title}</span>
                 </div>
               </a>
@@ -87,7 +79,7 @@ export default function PublicProfilePage() {
         <div className="text-center mt-12">
           <p className={`text-sm ${subtextClass}`}>
             Create your own Droplink →{' '}
-            <a href="/" className="font-semibold hover:underline">
+            <a href="/" className="font-semibold hover:underline text-white">
               droplink.com
             </a>
           </p>

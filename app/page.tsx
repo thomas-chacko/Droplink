@@ -1,120 +1,180 @@
 import Link from 'next/link';
-import { ArrowRight, Link2, Palette, Share2, Sparkles } from 'lucide-react';
+import { ArrowRight, Link2, Instagram, Facebook, Twitter, Linkedin, Youtube, Github, MessageCircle } from 'lucide-react';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-linear-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
       {/* Header */}
-      <header className="container mx-auto px-4 py-6 flex justify-between items-center">
+      <header className="container mx-auto px-6 md:px-8 lg:px-12 py-6 flex justify-between items-center relative z-10">
         <div className="flex items-center gap-2">
-          <Link2 className="w-8 h-8 text-blue-600" />
-          <span className="text-2xl font-bold text-gray-900">Droplink</span>
+          <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+            <Link2 className="w-6 h-6 text-blue-600" />
+          </div>
+          <span className="text-2xl font-bold text-white">Droplink</span>
         </div>
-        <div className="flex gap-4">
-          <Link href="/login" className="px-4 py-2 text-gray-700 hover:text-blue-600 transition">
-            Login
-          </Link>
-          <Link href="/signup" className="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
-            Get Started
+        <div className="flex gap-3">
+          <Link href="/login" className="px-6 py-2 bg-white text-blue-900 rounded-lg hover:bg-blue-50 transition font-semibold">
+            Join Now
           </Link>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full mb-6">
-            <Sparkles className="w-4 h-4" />
-            <span className="text-sm font-medium">Share your world in one link</span>
-          </div>
-          
-          <h1 className="text-6xl font-bold text-gray-900 mb-6">
-            All your links.<br />
-            <span className="text-blue-600">One Droplink.</span>
-          </h1>
-          
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Create a beautiful landing page for all your social links, portfolio, and content. 
-            Share one link everywhere.
-          </p>
-          
-          <Link 
-            href="/signup" 
-            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white text-lg rounded-full hover:bg-blue-700 transition shadow-lg hover:shadow-xl"
-          >
-            Get Started Free
-            <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-              <Link2 className="w-6 h-6 text-blue-600" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Unlimited Links</h3>
-            <p className="text-gray-600">Add all your social profiles, websites, and content in one place.</p>
-          </div>
-          
-          <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-              <Palette className="w-6 h-6 text-purple-600" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Custom Themes</h3>
-            <p className="text-gray-600">Personalize your page with colors and styles that match your brand.</p>
-          </div>
-          
-          <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-              <Share2 className="w-6 h-6 text-green-600" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Easy Sharing</h3>
-            <p className="text-gray-600">Share your unique link across all platforms and track engagement.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Preview Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-8 md:p-12">
-          <h2 className="text-3xl font-bold text-center mb-8">See it in action</h2>
-          
-          <div className="max-w-sm mx-auto bg-linear-to-br from-blue-500 to-purple-600 rounded-3xl p-8 text-white">
-            <div className="flex flex-col items-center mb-6">
-              <div className="w-24 h-24 bg-white rounded-full mb-4"></div>
-              <h3 className="text-2xl font-bold">@johndoe</h3>
-              <p className="text-blue-100">Designer & Creator</p>
-            </div>
+      <section className="container mx-auto px-6 md:px-8 lg:px-12 py-10 md:py-24 lg:py-10">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center min-h-[600px]">
+          {/* Left Side - Text Content */}
+          <div className="text-white space-y-8 relative z-10 px-4 md:px-0">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+              All Your Links
+              <br />
+              <span className="text-blue-300">In One Place</span>
+              <br />
+              Share Everywhere
+            </h1>
             
-            <div className="space-y-3">
-              {['Portfolio', 'Instagram', 'Twitter', 'YouTube'].map((link) => (
-                <div key={link} className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center font-medium hover:bg-white/30 transition cursor-pointer">
-                  {link}
-                </div>
-              ))}
+            <p className="text-xl md:text-2xl text-blue-200 max-w-xl leading-relaxed">
+              Connect all your social profiles, portfolio, and content with a single customizable link
+            </p>
+            
+            <Link 
+              href="/signup" 
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-900 text-lg font-bold rounded-xl hover:bg-blue-50 transition shadow-2xl hover:shadow-blue-500/50 hover:scale-105 transform"
+            >
+              Start Free
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+
+            <div className="flex items-center gap-6 pt-4">
+              <div>
+                <div className="text-3xl font-bold">10K+</div>
+                <div className="text-blue-300 text-sm">Active Users</div>
+              </div>
+              <div className="w-px h-12 bg-blue-700"></div>
+              <div>
+                <div className="text-3xl font-bold">50K+</div>
+                <div className="text-blue-300 text-sm">Links Shared</div>
+              </div>
             </div>
+          </div>
+
+          {/* Right Side - Animated Rings with Icons */}
+          <div className="relative flex items-center justify-center h-[400px] lg:h-[600px]">
+            {/* Center Text */}
+            <div className="absolute z-20 text-center">
+              <div className="text-5xl font-bold text-white mb-2">One Link</div>
+              <div className="text-xl text-blue-300">All Platforms</div>
+            </div>
+
+            {/* Ring 1 - Inner */}
+            <div className="absolute w-64 h-64 border-2 border-blue-500/30 rounded-full animate-spin-slow">
+              {/* Instagram */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="w-14 h-14 bg-linear-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+                  <Instagram className="w-7 h-7 text-white" />
+                </div>
+              </div>
+              
+              {/* Facebook */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
+                <div className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+                  <Facebook className="w-7 h-7 text-white" />
+                </div>
+              </div>
+              
+              {/* Twitter */}
+              <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="w-14 h-14 bg-sky-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+                  <Twitter className="w-7 h-7 text-white" />
+                </div>
+              </div>
+              
+              {/* LinkedIn */}
+              <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2">
+                <div className="w-14 h-14 bg-blue-700 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+                  <Linkedin className="w-7 h-7 text-white" />
+                </div>
+              </div>
+            </div>
+
+            {/* Ring 2 - Outer */}
+            <div className="absolute w-96 h-96 border-2 border-purple-500/20 rounded-full animate-spin-reverse">
+              {/* YouTube */}
+              <div className="absolute top-8 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+                  <Youtube className="w-7 h-7 text-white" />
+                </div>
+              </div>
+              
+              {/* GitHub */}
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 translate-y-1/2">
+                <div className="w-14 h-14 bg-gray-800 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+                  <Github className="w-7 h-7 text-white" />
+                </div>
+              </div>
+              
+              {/* WhatsApp */}
+              <div className="absolute left-8 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+                  <MessageCircle className="w-7 h-7 text-white" />
+                </div>
+              </div>
+              
+              {/* Link Icon */}
+              <div className="absolute right-8 top-1/2 translate-x-1/2 -translate-y-1/2">
+                <div className="w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+                  <Link2 className="w-7 h-7 text-white" />
+                </div>
+              </div>
+            </div>
+
+            {/* Glow Effects */}
+            <div className="absolute w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+            <div className="absolute w-64 h-64 bg-purple-500/10 rounded-full blur-2xl"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="container mx-auto px-6 md:px-8 lg:px-12 py-10 md:py-28">
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 hover:bg-white/15 transition">
+            <div className="text-4xl mb-4">🔗</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Unlimited Links</h3>
+            <p className="text-blue-200">Add all your social profiles and content in one place</p>
+          </div>
+          
+          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 hover:bg-white/15 transition">
+            <div className="text-4xl mb-4">🎨</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Custom Themes</h3>
+            <p className="text-blue-200">Personalize your page with colors that match your brand</p>
+          </div>
+          
+          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 hover:bg-white/15 transition">
+            <div className="text-4xl mb-4">📊</div>
+            <h3 className="text-xl font-semibold text-white mb-2">Track Analytics</h3>
+            <p className="text-blue-200">See how your audience engages with your content</p>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-12 mt-20 border-t">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+      <footer className="container mx-auto px-6 md:px-8 lg:px-12 py-12 border-t border-white/10 mt-20">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <Link2 className="w-6 h-6 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">Droplink</span>
+            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+              <Link2 className="w-5 h-5 text-blue-600" />
+            </div>
+            <span className="text-lg font-bold text-white">Droplink</span>
           </div>
           
-          <div className="flex gap-6 text-gray-600">
-            <Link href="#" className="hover:text-blue-600 transition">About</Link>
-            <Link href="#" className="hover:text-blue-600 transition">Privacy Policy</Link>
-            <Link href="#" className="hover:text-blue-600 transition">Contact</Link>
+          <div className="flex gap-8 text-blue-200">
+            <Link href="#" className="hover:text-white transition">About</Link>
+            <Link href="#" className="hover:text-white transition">Privacy</Link>
+            <Link href="#" className="hover:text-white transition">Terms</Link>
+            <Link href="#" className="hover:text-white transition">Contact</Link>
           </div>
           
-          <p className="text-gray-500 text-sm">© 2024 Droplink. All rights reserved.</p>
+          <p className="text-blue-300 text-sm">© 2024 Droplink. All rights reserved.</p>
         </div>
       </footer>
     </div>

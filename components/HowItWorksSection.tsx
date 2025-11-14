@@ -82,7 +82,7 @@ export default function HowItWorksSection() {
           Start building now
         </a>
         <p className="text-blue-200 mt-4">
-          Join 50,000+ creators already using Droplink
+          Join 1,000+ creators already using Droplink
         </p>
       </div>
     </section>

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Droplink - All your links in one place",
+  title: "Droplink",
   description: "Manage and share all your social links through a single customizable profile",
 };
 

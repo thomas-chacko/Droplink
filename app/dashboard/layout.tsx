@@ -90,7 +90,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             >
                                 <Menu className="w-6 h-6" />
                             </button>
-                            <div>
+                            <div className="hidden md:block">
                                 <h1 className="text-xl md:text-2xl font-bold text-white">
                                     {pathname === '/dashboard' && 'Dashboard Overview'}
                                     {pathname === '/dashboard/profile' && 'Profile Settings'}

@@ -82,28 +82,28 @@ export default function HeroSection() {
           {/* Ring 2 - Outer */}
           <div className="absolute w-96 h-96 border-2 border-purple-500/20 rounded-full animate-spin-reverse">
             {/* YouTube */}
-            <div className="absolute top-8 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
               <div className="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                 <Youtube className="w-7 h-7 text-white" />
               </div>
             </div>
 
             {/* GitHub */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 translate-y-1/2">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
               <div className="w-14 h-14 bg-gray-800 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                 <Github className="w-7 h-7 text-white" />
               </div>
             </div>
 
             {/* WhatsApp */}
-            <div className="absolute left-8 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                 <MessageCircle className="w-7 h-7 text-white" />
               </div>
             </div>
 
             {/* Link Icon */}
-            <div className="absolute right-8 top-1/2 translate-x-1/2 -translate-y-1/2">
+            <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2">
               <div className="w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                 <Link2 className="w-7 h-7 text-white" />
               </div>

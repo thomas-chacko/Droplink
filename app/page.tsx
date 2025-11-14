@@ -32,7 +32,7 @@ export default function LandingPage() {
               Share Everywhere
             </h1>
 
-            <p className="text-xl md:text-2xl text-blue-200 max-w-xl leading-relaxed">
+            <p className="text-xl md:text-2xl text-blue-200 leading-relaxed">
               Connect all your social profiles, portfolio, and content with a single customizable link
             </p>
 

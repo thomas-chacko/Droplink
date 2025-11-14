@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const pathname = usePathname();
+    const username = 'johndoe';
 
     const navItems = [
         { href: '/dashboard', icon: LayoutDashboard, label: 'Overview' },
@@ -77,17 +78,47 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 overflow-y-auto">
-                {/* Mobile Menu Button */}
-                <button
-                    onClick={() => setSidebarOpen(true)}
-                    className="md:hidden fixed top-4 left-4 z-30 text-white hover:bg-white/10 p-2 rounded-lg bg-white/5 backdrop-blur-sm border border-white/20"
-                >
-                    <Menu className="w-6 h-6" />
-                </button>
+            <main className="flex-1 flex flex-col h-screen overflow-hidden">
+                {/* Header */}
+                <header className="shrink-0 z-30 bg-white/10 backdrop-blur-md border-b border-white/20 px-4 md:px-8 py-4">
+                    <div className="flex items-center justify-between">
+                        {/* Left Side - Page Title */}
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => setSidebarOpen(true)}
+                                className="md:hidden text-white hover:bg-white/10 p-2 rounded-lg"
+                            >
+                                <Menu className="w-6 h-6" />
+                            </button>
+                            <div>
+                                <h1 className="text-xl md:text-2xl font-bold text-white">
+                                    {pathname === '/dashboard' && 'Dashboard Overview'}
+                                    {pathname === '/dashboard/profile' && 'Profile Settings'}
+                                    {pathname === '/dashboard/links' && 'My Links'}
+                                    {pathname === '/dashboard/theme' && 'Theme Customization'}
+                                </h1>
+                                <p className="text-xs md:text-sm text-blue-200">
+                                    {pathname === '/dashboard' && "Welcome back! Here's your performance summary"}
+                                    {pathname === '/dashboard/profile' && 'Manage your public profile information'}
+                                    {pathname === '/dashboard/links' && 'Add and manage your links'}
+                                    {pathname === '/dashboard/theme' && 'Personalize your profile appearance'}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* User Profile */}
+                        <div className="flex items-center gap-3">
+                            <div className="text-right hidden sm:block">
+                                <p className="font-semibold text-white text-sm">John Doe</p>
+                                <p className="text-xs text-blue-200">@{username}</p>
+                            </div>
+                            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full"></div>
+                        </div>
+                    </div>
+                </header>
 
                 {/* Page Content */}
-                <div className="p-4 md:p-8">
+                <div className="flex-1 overflow-y-auto p-4 md:p-8">
                     {children}
                 </div>
             </main>

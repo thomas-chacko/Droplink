@@ -30,11 +30,6 @@ export default function LinksPage() {
 
   return (
     <div className="max-w-4xl">
-      <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">My Links</h1>
-        <p className="text-blue-200">Add and manage your links</p>
-      </div>
-
       <div className="space-y-6">
         {/* Add New Link */}
         <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg p-6 md:p-8 border border-white/20">

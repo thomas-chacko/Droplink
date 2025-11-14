@@ -1,6 +1,6 @@
 'use client';
 
-import { Eye, MousePointerClick, BarChart3, Copy, ExternalLink, TrendingUp, Users } from 'lucide-react';
+import { Eye, MousePointerClick, BarChart3, TrendingUp, Users, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -16,16 +16,10 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Dashboard Overview</h1>
-        <p className="text-blue-200">Welcome back! Here's your performance summary</p>
-      </div>
-
       {/* Quick Actions */}
       <div className="flex flex-wrap gap-3">
         <Link 
           href={`/${username}`}
-          target="_blank"
           className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl border border-white/20 text-white font-medium transition"
         >
           <Eye className="w-4 h-4" />
@@ -37,7 +31,7 @@ export default function DashboardPage() {
           className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl border border-white/20 text-white font-medium transition"
         >
           <Copy className="w-4 h-4" />
-          <span>{copied ? 'Copied!' : 'Copy Link'}</span>
+          <span>{copied ? 'Copied!' : 'Copy URL'}</span>
         </button>
       </div>
 

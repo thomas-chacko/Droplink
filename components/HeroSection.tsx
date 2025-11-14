@@ -10,7 +10,7 @@ export default function HeroSection() {
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
             All Your Links
             <br />
-            <span className="text-blue-300">In One Place</span>
+            <span className="text-blue-400">In One Place</span>
             <br />
             Share Everywhere
           </h1>

@@ -94,11 +94,11 @@ export default function TestimonialsSection() {
       {/* Stats Section */}
       <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         <div>
-          <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">50K+</div>
+          <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">100+</div>
           <div className="text-blue-200">Active Users</div>
         </div>
         <div>
-          <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">1M+</div>
+          <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">1k+</div>
           <div className="text-blue-200">Links Created</div>
         </div>
         <div>

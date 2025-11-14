@@ -5,34 +5,35 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 mt-10">
       <div className="container mx-auto px-6 md:px-8 lg:px-12 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
-          {/* Brand Column */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center">
-                <Link2 className="w-6 h-6 text-gray-900" />
-              </div>
-              <span className="text-2xl font-bold text-white">Droplink</span>
+        {/* Brand Section - Full Width on Mobile */}
+        <div className="mb-12">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center">
+              <Link2 className="w-6 h-6 text-gray-900" />
             </div>
-            <p className="text-blue-200 mb-6 max-w-sm">
-              The simplest way to share all your content. One link to rule them all.
-            </p>
-            <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-gray-900 text-white transition">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-gray-900 text-white transition">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-gray-900 text-white transition">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-gray-900 text-white transition">
-                <Youtube className="w-5 h-5" />
-              </a>
-            </div>
+            <span className="text-2xl font-bold text-white">Droplink</span>
           </div>
+          <p className="text-blue-200 mb-6 max-w-sm">
+            The simplest way to share all your content. One link to rule them all.
+          </p>
+          <div className="flex gap-4">
+            <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-gray-900 text-white transition">
+              <Twitter className="w-5 h-5" />
+            </a>
+            <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-gray-900 text-white transition">
+              <Instagram className="w-5 h-5" />
+            </a>
+            <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-gray-900 text-white transition">
+              <Linkedin className="w-5 h-5" />
+            </a>
+            <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-gray-900 text-white transition">
+              <Youtube className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
 
+        {/* Links Grid - 2 cols on mobile, 3 cols on tablet, 4 cols on desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
           {/* Product Column */}
           <div>
             <h3 className="text-white font-bold text-lg mb-4">Product</h3>
@@ -66,6 +67,18 @@ export default function Footer() {
               <li><Link href="#" className="text-blue-200 hover:text-yellow-400 transition">Community</Link></li>
               <li><Link href="#" className="text-blue-200 hover:text-yellow-400 transition">API Docs</Link></li>
               <li><Link href="#" className="text-blue-200 hover:text-yellow-400 transition">Status</Link></li>
+            </ul>
+          </div>
+
+          {/* Support Column */}
+          <div>
+            <h3 className="text-white font-bold text-lg mb-4">Support</h3>
+            <ul className="space-y-3">
+              <li><Link href="#" className="text-blue-200 hover:text-yellow-400 transition">Contact Us</Link></li>
+              <li><Link href="#" className="text-blue-200 hover:text-yellow-400 transition">FAQs</Link></li>
+              <li><Link href="#" className="text-blue-200 hover:text-yellow-400 transition">Live Chat</Link></li>
+              <li><Link href="#" className="text-blue-200 hover:text-yellow-400 transition">Report Issue</Link></li>
+              <li><Link href="#" className="text-blue-200 hover:text-yellow-400 transition">Feedback</Link></li>
             </ul>
           </div>
         </div>

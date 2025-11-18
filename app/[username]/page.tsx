@@ -63,10 +63,10 @@ export default function PublicProfilePage() {
                 className="block p-5 rounded-2xl font-medium transition transform hover:scale-105 bg-white/10 backdrop-blur-md text-white hover:bg-white/20 border border-white/20 shadow-lg"
               >
                 <div className="flex items-center justify-center gap-3">
-                  {typeof IconComponent === 'function' && IconComponent !== iconMap.globe ? (
-                    <IconComponent className="w-5 h-5" />
-                  ) : (
+                  {IconComponent === iconMap.globe ? (
                     IconComponent()
+                  ) : (
+                    <IconComponent className="w-5 h-5" />
                   )}
                   <span>{link.title}</span>
                 </div>

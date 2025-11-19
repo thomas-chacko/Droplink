@@ -1,3 +1,4 @@
 thomasmern_db_user YGdzwEW4TNvOKzdS
  droplinkAdmin
  OD2s84avYgU2e7y9
+ MONGODB_URI=mongodb+srv://droplinkAdmin:OD2s84avYgU2e7y9@cluster.h7cc2ev.mongodb.net/droplink

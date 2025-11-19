@@ -13,7 +13,8 @@ const ThemeSchema = new Schema<Theme>({
 },
     {
         _id: false
-    })
+    }
+)
 
 const UsersSchema = new Schema<User>({
     username: {

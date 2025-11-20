@@ -18,7 +18,6 @@ export async function POST(req: Request) {
         }
 
         const existingUser = await UserModel.findOne({ email })
-        console.log("existingUser",existingUser);
         if (existingUser) {
             return NextResponse.json({
                 success: false,

@@ -3,18 +3,7 @@ import connectDB from "@/server/db/connection";
 import UserModel from "@/server/models/User";
 import { hashPassword } from "@/lib/bcrypt";
 import { generateToken } from "@/lib/jwt";
-
-// email validation function
-function isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-// username validation function
-function isValidUsername(username: string): boolean {
-    const usernameRegex = /^[a-zA-Z0-9_]{3,30}$/;
-    return usernameRegex.test(username);
-}
+import { validateEmail, validateUsername } from "@/lib/validation";
 
 export async function POST(req: Request) {
     try {
@@ -33,7 +22,7 @@ export async function POST(req: Request) {
         }
 
         // Validate email format
-        if (!isValidEmail(email)) {
+        if (!validateEmail(email)) {
             return NextResponse.json({
                 success: false,
                 message: "Please provide a valid email address"
@@ -44,7 +33,7 @@ export async function POST(req: Request) {
         }
 
         // Validate username format
-        if (!isValidUsername(username)) {
+        if (!validateUsername(username)) {
             return NextResponse.json({
                 success: false,
                 message: "Username must be 3-30 characters and contain only letters, numbers, and underscores"

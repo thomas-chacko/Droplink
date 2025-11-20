@@ -6,11 +6,11 @@ export interface Theme {
 export interface User {
     _id: string
     username: string
-    name: string
-    theme: Theme
+    name?: string  // Make name optional
+    theme?: Theme  // Make theme optional
     email: string
     password: string
-    avatar: string
-    bio: string
+    avatar?: string  // Make avatar optional
+    bio?: string   // Make bio optional
     isPremium: boolean
 }

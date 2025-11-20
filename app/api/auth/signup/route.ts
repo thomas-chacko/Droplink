@@ -30,6 +30,17 @@ export async function POST(req: Request) {
                 })
         }
 
+        const checkUserName = await UserModel.findOne({ username })
+        if (checkUserName) {
+            return NextResponse.json({
+                success: false,
+                message: "Username already exists please choose another one"
+            },
+                {
+                    status: 400
+                })
+        }
+
         const hashedPassword = await hashPassword(password)
 
         const newUser = await UserModel.create({
@@ -38,7 +49,7 @@ export async function POST(req: Request) {
             password: hashedPassword
         })
 
-        const token = generateToken(newUser._id)
+        const token = generateToken(newUser._id.toString())
 
         return NextResponse.json({
             success: true,
@@ -48,9 +59,7 @@ export async function POST(req: Request) {
                 id: newUser._id,
                 username: newUser.username,
                 email: newUser.email,
-                isPremium: newUser.isPremium,
-                theme: newUser.theme,
-                bio: newUser.bio
+                isPremium: newUser.isPremium
             }
         },
             {

@@ -27,7 +27,7 @@ const UsersSchema = new Schema<User>({
     },
     name: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
         minlength: 3,
         maxlength: 30
@@ -67,5 +67,9 @@ const UsersSchema = new Schema<User>({
     }
 )
 
-const UserModel = (mongoose.models.User || mongoose.model<User>('User', UsersSchema)) as Model<User>;
+// Ensure the model is always updated with the latest schema
+const UserModel = mongoose.models.User ?
+    mongoose.model<User>('User') :
+    mongoose.model<User>('User', UsersSchema);
+
 export default UserModel;

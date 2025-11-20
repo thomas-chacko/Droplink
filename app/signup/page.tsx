@@ -11,42 +11,11 @@ export default function SignupPage() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      // Call our signup API endpoint
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Store token in localStorage or cookies if needed
-        // For now, we'll just redirect to dashboard
-        router.push('/dashboard');
-      } else {
-        setError(data.message || 'Signup failed');
-      }
-    } catch (err) {
-      setError('An unexpected error occurred. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    // Mock signup - redirect to dashboard
+    router.push('/dashboard');
   };
 
   return (
@@ -67,13 +36,6 @@ export default function SignupPage() {
             <div>
               <h1 className="text-4xl font-bold text-white mb-2">Create account</h1>
               <p className="text-blue-200 mb-8">Start sharing your links today</p>
-
-              {/* Error Message */}
-              {error && (
-                <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm">
-                  {error}
-                </div>
-              )}
 
               {/* Google Sign In */}
               <button
@@ -154,10 +116,9 @@ export default function SignupPage() {
 
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="w-full py-3 bg-yellow-400 text-gray-900 font-bold rounded-xl hover:bg-yellow-300 transition shadow-lg hover:shadow-xl disabled:opacity-70"
+                  className="w-full py-3 bg-yellow-400 text-gray-900 font-bold rounded-xl hover:bg-yellow-300 transition shadow-lg hover:shadow-xl"
                 >
-                  {loading ? 'Creating Account...' : 'Create Account'}
+                  Create Account
                 </button>
               </form>
 

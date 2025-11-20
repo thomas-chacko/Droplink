@@ -4,11 +4,11 @@ import { Theme, User } from "@/types/user";
 const ThemeSchema = new Schema<Theme>({
     bgColor: {
         type: String,
-        required: true
+        required: false
     },
     textColor: {
         type: String,
-        required: true
+        required: false
     }
 },
     {
@@ -34,7 +34,7 @@ const UsersSchema = new Schema<User>({
     },
     theme: {
         type: ThemeSchema,
-        required: true
+        required: false
     },
     email: {
         type: String,
@@ -54,11 +54,11 @@ const UsersSchema = new Schema<User>({
     },
     bio: {
         type: String,
-        required: true
+        required: false
     },
     isPremium: {
         type: Boolean,
-        required: true,
+        required: false,
         default: false
     }
 },

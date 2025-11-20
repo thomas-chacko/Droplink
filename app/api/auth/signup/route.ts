@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/server/db/connection";
 import UserModel from "@/server/models/User";
+import { hashPassword } from "@/lib/bcrypt";
+import { generateToken } from "@/lib/jwt";
 
 export async function POST(req: Request) {
     try {
@@ -28,7 +30,32 @@ export async function POST(req: Request) {
                 })
         }
 
-        return NextResponse.json({ success: true, message: "User registered successfully" })
+        const hashedPassword = await hashPassword(password)
+
+        const newUser = await UserModel.create({
+            username,
+            email,
+            password: hashedPassword
+        })
+
+        const token = generateToken(newUser._id)
+
+        return NextResponse.json({
+            success: true,
+            message: "User registered successfully",
+            token,
+            user: {
+                id: newUser._id,
+                username: newUser.username,
+                email: newUser.email,
+                isPremium: newUser.isPremium,
+                theme: newUser.theme,
+                bio: newUser.bio
+            }
+        },
+            {
+                status: 201
+            })
 
     } catch (error: any) {
         return NextResponse.json({

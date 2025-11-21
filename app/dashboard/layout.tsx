@@ -31,123 +31,161 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     return (
         <ProtectedRoute redirectTo="/login">
-            <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex">
+            <div className="min-h-screen bg-[#0B1120] text-white flex font-sans selection:bg-blue-500/30">
                 {/* Mobile Sidebar Overlay */}
                 {sidebarOpen && (
                     <div
-                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
                         onClick={() => setSidebarOpen(false)}
                     />
                 )}
 
-
                 {/* Sidebar */}
-                <aside className={`fixed md:static w-64 bg-white/5 backdrop-blur-sm border-r border-white/10 h-screen z-50 transition-transform duration-300 flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+                <aside className={`fixed md:static w-72 bg-[#0F172A] border-r border-white/5 h-screen z-50 transition-transform duration-300 ease-out flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
                     }`}>
-                    <div className="flex items-center justify-between p-6 pb-4">
-                        <Link href="/" className="flex items-center">
-                            <div className="h-10 flex items-center">
+                    <div className="flex items-center justify-between p-6 h-20 border-b border-white/5">
+                        <Link href="/" className="flex items-center gap-3 group">
+                            <div className="relative h-8 w-auto transition-transform">
                                 <Image
                                     src={LogoImage}
                                     alt="Droplink Logo"
-                                    width={150}
+                                    width={140}
                                     height={40}
                                     className="object-contain h-full w-auto"
+                                    priority
                                 />
                             </div>
                         </Link>
                         <button
                             onClick={() => setSidebarOpen(false)}
-                            className="md:hidden text-white hover:bg-white/10 p-2 rounded-lg"
+                            className="md:hidden text-slate-400 hover:text-white hover:bg-white/5 p-2 rounded-lg transition-colors"
                         >
                             <X className="w-5 h-5" />
                         </button>
                     </div>
 
-                    <nav className="flex-1 overflow-y-auto px-6 space-y-2">
-                        {navItems.map((item) => {
-                            const Icon = item.icon;
-                            const isActive = pathname === item.href;
+                    <div className="flex-1 overflow-y-auto py-6 px-4 space-y-8">
+                        <nav className="space-y-1.5">
+                            <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Menu</p>
+                            {navItems.map((item) => {
+                                const Icon = item.icon;
+                                const isActive = pathname === item.href;
 
-                            return (
-                                <Link
-                                    key={item.href}
-                                    href={item.href}
-                                    onClick={() => setSidebarOpen(false)}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition ${isActive ? 'bg-white/20 text-white' : 'text-blue-200 hover:bg-white/10'
-                                        }`}
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        onClick={() => setSidebarOpen(false)}
+                                        className={`group flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${isActive
+                                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20'
+                                            : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                                            }`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-white'}`} />
+                                            <span className="font-medium">{item.label}</span>
+                                        </div>
+                                        {item.isPro && (
+                                            <span className="text-[10px] bg-gradient-to-r from-amber-400 to-orange-500 text-black px-2 py-0.5 rounded-full font-bold shadow-sm">PRO</span>
+                                        )}
+                                    </Link>
+                                );
+                            })}
+                        </nav>
+
+                        <div className="space-y-1.5">
+                            <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Settings</p>
+                            {isInstallable && (
+                                <button
+                                    onClick={installPWA}
+                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all duration-200 group"
                                 >
-                                    <Icon className="w-5 h-5" />
-                                    <span className="font-medium">{item.label}</span>
-                                    {item.isPro && (
-                                        <span className="ml-auto text-xs bg-yellow-400 text-yellow-900 px-2 py-1 rounded font-bold">PRO</span>
-                                    )}
-                                </Link>
-                            );
-                        })}
-                    </nav>
+                                    <Smartphone className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
+                                    <span className="font-medium">Get App</span>
+                                </button>
+                            )}
+                            <button
+                                onClick={handleLogout}
+                                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 group"
+                            >
+                                <LogOut className="w-5 h-5 text-slate-500 group-hover:text-red-400 transition-colors" />
+                                <span className="font-medium">Logout</span>
+                            </button>
+                        </div>
+                    </div>
 
-                    <div className="flex-shrink-0 p-6 pt-4 space-y-2">
-                        <button
-                            onClick={installPWA}
-                            className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-xl text-blue-200 hover:bg-white/10 transition"
-                        >
-                            <Smartphone className="w-5 h-5" />
-                            <span className="font-medium">Get App</span>
-                        </button>
-                        <button
-                            onClick={handleLogout}
-                            className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-xl text-blue-200 hover:bg-white/10 transition"
-                        >
-                            <LogOut className="w-5 h-5" />
-                            <span className="font-medium">Logout</span>
-                        </button>
+                    <div className="p-4 border-t border-white/5">
+                        <div className="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-blue-500/10 rounded-xl p-4">
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold">
+                                    JD
+                                </div>
+                                <div className="overflow-hidden">
+                                    <p className="text-sm font-medium text-white truncate">John Doe</p>
+                                    <p className="text-xs text-slate-400 truncate">Free Plan</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </aside>
 
                 {/* Main Content */}
-                <main className="flex-1 flex flex-col h-screen overflow-hidden">
+                <main className="flex-1 flex flex-col h-screen overflow-hidden bg-[#0B1120]">
                     {/* Header */}
-                    <header className="shrink-0 z-30 bg-white/10 backdrop-blur-md border-b border-white/20 px-4 md:px-8 py-4">
-                        <div className="flex items-center justify-between">
-                            {/* Left Side - Page Title */}
-                            <div className="flex items-center gap-3">
-                                <button
-                                    onClick={() => setSidebarOpen(true)}
-                                    className="md:hidden text-white hover:bg-white/10 p-2 rounded-lg"
-                                >
-                                    <Menu className="w-6 h-6" />
-                                </button>
-                                <div className="hidden md:block">
-                                    <h1 className="text-xl md:text-2xl font-bold text-white">
-                                        {pathname === '/dashboard' && 'Dashboard Overview'}
-                                        {pathname === '/dashboard/profile' && 'Profile Settings'}
-                                        {pathname === '/dashboard/links' && 'My Links'}
-                                        {pathname === '/dashboard/theme' && 'Theme Customization'}
-                                    </h1>
-                                    <p className="text-xs md:text-sm text-blue-200">
-                                        {pathname === '/dashboard' && "Welcome back! Here's your performance summary"}
-                                        {pathname === '/dashboard/profile' && 'Manage your public profile information'}
-                                        {pathname === '/dashboard/links' && 'Add and manage your links'}
-                                        {pathname === '/dashboard/theme' && 'Personalize your profile appearance'}
-                                    </p>
+                    <header className="h-20 shrink-0 z-30 bg-[#0B1120]/80 backdrop-blur-xl border-b border-white/5 px-6 md:px-8 flex items-center justify-between sticky top-0">
+                        <div className="flex items-center gap-4">
+                            <button
+                                onClick={() => setSidebarOpen(true)}
+                                className="md:hidden text-slate-400 hover:text-white hover:bg-white/5 p-2 rounded-lg transition-colors"
+                            >
+                                <Menu className="w-6 h-6" />
+                            </button>
+
+                            <div className="flex flex-col">
+                                <h1 className="text-xl font-bold text-white tracking-tight">
+                                    {pathname === '/dashboard' && 'Dashboard'}
+                                    {pathname === '/dashboard/profile' && 'Profile'}
+                                    {pathname === '/dashboard/links' && 'Links'}
+                                    {pathname === '/dashboard/theme' && 'Theme'}
+                                </h1>
+                                <div className="flex items-center gap-2 text-sm text-slate-400">
+                                    <span>Overview</span>
+                                    <span className="text-slate-600">/</span>
+                                    <span className="text-blue-400">
+                                        {pathname === '/dashboard' && 'Home'}
+                                        {pathname === '/dashboard/profile' && 'Settings'}
+                                        {pathname === '/dashboard/links' && 'Management'}
+                                        {pathname === '/dashboard/theme' && 'Customization'}
+                                    </span>
                                 </div>
                             </div>
+                        </div>
 
-                            {/* User Profile */}
-                            <div className="flex items-center gap-3">
-                                <div className="text-right hidden sm:block">
-                                    <p className="font-semibold text-white text-sm">John Doe</p>
-                                    <p className="text-xs text-blue-200">@{username}</p>
+                        <div className="flex items-center gap-4">
+                            <Link
+                                href={`/${username}`}
+                                target="_blank"
+                                className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-medium text-slate-300 transition-all hover:text-white"
+                            >
+                                <span>View Profile</span>
+                                <LinkIcon className="w-3 h-3" />
+                            </Link>
+                            <div className="h-8 w-[1px] bg-white/10 hidden sm:block"></div>
+                            <div className="flex items-center gap-3 pl-2">
+                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-[2px] ring-2 ring-black/20">
+                                    <div className="w-full h-full rounded-full bg-[#0B1120] flex items-center justify-center">
+                                        <span className="text-xs font-bold text-white">JD</span>
+                                    </div>
                                 </div>
-                                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full"></div>
                             </div>
                         </div>
                     </header>
 
                     {/* Page Content */}
-                    <div className="flex-1 overflow-y-auto p-4 md:p-6">
-                        {children}
+                    <div className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                        <div className="max-w-6xl mx-auto">
+                            {children}
+                        </div>
                     </div>
                 </main>
             </div>

@@ -1,5 +1,7 @@
 import Link from 'next/link';
-import { Link2, Twitter, Instagram, Linkedin, Youtube, Mail } from 'lucide-react';
+import Image from 'next/image';
+import { Twitter, Instagram, Linkedin, Youtube, Mail } from 'lucide-react';
+import LogoImage from "@/public/images/logoImage.png";
 
 export default function Footer() {
   return (
@@ -7,12 +9,17 @@ export default function Footer() {
       <div className="container mx-auto px-6 md:px-8 lg:px-12 py-10">
         {/* Brand Section - Full Width on Mobile */}
         <div className="mb-12">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center">
-              <Link2 className="w-6 h-6 text-gray-900" />
+          <Link href="/" className="inline-block mb-4">
+            <div className="h-12 flex items-center">
+              <Image
+                src={LogoImage}
+                alt="Droplink Logo"
+                width={180}
+                height={48}
+                className="object-contain h-full w-auto"
+              />
             </div>
-            <span className="text-2xl font-bold text-white">Droplink</span>
-          </div>
+          </Link>
           <p className="text-blue-200 mb-6 max-w-sm">
             The simplest way to share all your content. One link to rule them all.
           </p>

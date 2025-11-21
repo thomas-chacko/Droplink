@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import { User, Link as LinkIcon, Palette, LogOut, X, LayoutDashboard, Menu } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { authServices } from '@/services/authServices';
+import LogoImage from "@/public/images/logoImage.png";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -40,11 +42,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <aside className={`fixed md:static w-64 bg-white/5 backdrop-blur-sm border-r border-white/10 p-6 h-screen z-50 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
                     }`}>
                     <div className="flex items-center justify-between mb-8">
-                        <Link href="/" className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                                <LinkIcon className="w-5 h-5 text-blue-600" />
+                        <Link href="/" className="flex items-center">
+                            <div className="h-10 flex items-center">
+                                <Image
+                                    src={LogoImage}
+                                    alt="Droplink Logo"
+                                    width={150}
+                                    height={40}
+                                    className="object-contain h-full w-auto"
+                                />
                             </div>
-                            <span className="text-xl font-bold text-white">Droplink</span>
                         </Link>
                         <button
                             onClick={() => setSidebarOpen(false)}

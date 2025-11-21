@@ -1,7 +1,4 @@
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { useRouter } from 'next/navigation';
-
-const router = useRouter()
 
 // Create axios instance with default config
 const axiosInstance: AxiosInstance = axios.create({
@@ -42,8 +39,7 @@ axiosInstance.interceptors.response.use(
           // Unauthorized - clear token and redirect to login
           if (typeof window !== 'undefined') {
             localStorage.removeItem('token');
-            // window.location.href = '/login';
-            router.push("/login")
+            window.location.href = '/login';
           }
           break;
         case 403:

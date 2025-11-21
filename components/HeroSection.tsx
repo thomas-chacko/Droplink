@@ -52,7 +52,7 @@ export default function HeroSection() {
           <div className="absolute w-64 h-64 border-2 border-blue-500/30 rounded-full animate-spin-slow">
             {/* Instagram */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <div className="w-14 h-14 bg-linear-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                 <Instagram className="w-7 h-7 text-white" />
               </div>
             </div>

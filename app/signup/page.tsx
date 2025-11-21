@@ -86,7 +86,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-linear-to-br from-purple-900 via-blue-900 to-indigo-900 flex">
+    <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex">
       <div className="flex flex-col lg:flex-row w-full h-full">
         {/* Left Side - Form */}
         <div className="flex-1 flex items-center justify-center p-6 lg:p-12 overflow-y-auto">

@@ -35,7 +35,7 @@ export default function PublicProfilePage() {
   const user = mockUserData;
   const { theme } = user;
 
-  const bgClass = 'bg-linear-to-br from-purple-900 via-blue-900 to-indigo-900';
+  const bgClass = 'bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900';
   const textClass = 'text-white';
   const subtextClass = 'text-blue-200';
 
@@ -44,7 +44,7 @@ export default function PublicProfilePage() {
       <div className="w-full max-w-2xl">
         {/* Profile Header */}
         <div className="text-center mb-8">
-          <div className="w-24 h-24 mx-auto bg-linear-to-br from-blue-500 to-purple-600 rounded-full mb-4 shadow-2xl"></div>
+          <div className="w-24 h-24 mx-auto bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-4 shadow-2xl"></div>
           <h1 className={`text-3xl font-bold ${textClass} mb-2`}>@{user.username}</h1>
           <p className={`${subtextClass} max-w-md mx-auto`}>{user.bio}</p>
         </div>
@@ -53,7 +53,7 @@ export default function PublicProfilePage() {
         <div className="space-y-4">
           {user.links.map((link) => {
             const IconComponent = iconMap[link.icon as keyof typeof iconMap];
-            
+
             return (
               <a
                 key={link.id}

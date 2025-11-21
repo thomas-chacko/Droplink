@@ -1,5 +1,6 @@
 import axiosInstance from "@/axios/config"
 import { API_ENDPOINTS } from "@/urls"
+import { getAuthToken, getAuthUser, clearAuth } from "@/lib/auth"
 
 interface LoginCredentials {
     email: string;
@@ -36,10 +37,7 @@ export const authServices = {
     },
 
     logout: () => {
-        if (typeof window !== 'undefined') {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-        }
+        clearAuth();
     },
 
     saveAuthData: (token: string, user: any) => {
@@ -50,17 +48,10 @@ export const authServices = {
     },
 
     getToken: (): string | null => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('token');
-        }
-        return null;
+        return getAuthToken();
     },
 
     getUser: () => {
-        if (typeof window !== 'undefined') {
-            const user = localStorage.getItem('user');
-            return user ? JSON.parse(user) : null;
-        }
-        return null;
+        return getAuthUser();
     }
 }

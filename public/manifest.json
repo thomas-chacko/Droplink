@@ -1,0 +1,24 @@
+{
+    "name": "Droplink - Your Link Hub",
+    "short_name": "Droplink",
+    "description": "Manage and share all your social links through a single customizable profile",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#1e3a8a",
+    "theme_color": "#1e40af",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/images/logo.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/images/logo.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        }
+    ]
+}

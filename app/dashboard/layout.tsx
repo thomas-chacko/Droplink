@@ -8,12 +8,14 @@ import { usePathname, useRouter } from 'next/navigation';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { authServices } from '@/services/authServices';
 import LogoImage from "@/public/images/logoImage.png";
+import { usePWAInstall } from '@/hooks/usePWAInstall';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
     const username = 'johndoe';
+    const { installPWA, isInstallable } = usePWAInstall();
 
     const handleLogout = () => {
         authServices.logout();
@@ -87,6 +89,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                     <div className="flex-shrink-0 p-6 pt-4 space-y-2">
                         <button
+                            onClick={installPWA}
                             className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-xl text-blue-200 hover:bg-white/10 transition"
                         >
                             <Smartphone className="w-5 h-5" />

@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     }`}>
                     <div className="flex items-center justify-between p-6 h-20 border-b border-white/5">
                         <Link href="/" className="flex items-center gap-3 group">
-                            <div className="relative h-8 w-auto transition-transform">
+                            <div className="relative h-10 w-auto transition-transform">
                                 <Image
                                     src={LogoImage}
                                     alt="Droplink Logo"
@@ -162,15 +162,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Link
-                                href={`/${username}`}
-                                target="_blank"
-                                className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-medium text-slate-300 transition-all hover:text-white"
-                            >
-                                <span>View Profile</span>
-                                <LinkIcon className="w-3 h-3" />
-                            </Link>
-                            <div className="h-8 w-[1px] bg-white/10 hidden sm:block"></div>
                             <div className="flex items-center gap-3 pl-2">
                                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-[2px] ring-2 ring-black/20">
                                     <div className="w-full h-full rounded-full bg-[#0B1120] flex items-center justify-center">

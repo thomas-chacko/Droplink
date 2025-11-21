@@ -84,13 +84,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         })}
                     </nav>
 
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-blue-200 hover:bg-white/10 transition mt-auto absolute bottom-6"
-                    >
-                        <LogOut className="w-5 h-5" />
-                        <span className="font-medium">Logout</span>
-                    </button>
+                    <div className="absolute bottom-6 left-6 right-6 space-y-2">
+                        <button
+                            className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-xl text-blue-200 hover:bg-white/10 transition"
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                            <span className="font-medium">Get App</span>
+                        </button>
+                        <button
+                            onClick={handleLogout}
+                            className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-xl text-blue-200 hover:bg-white/10 transition"
+                        >
+                            <LogOut className="w-5 h-5" />
+                            <span className="font-medium">Logout</span>
+                        </button>
+                    </div>
                 </aside>
 
                 {/* Main Content */}

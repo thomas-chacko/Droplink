@@ -4,8 +4,8 @@
     "description": "Manage and share all your social links through a single customizable profile",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#1e3a8a",
-    "theme_color": "#1e40af",
+    "background_color": "#0B1120",
+    "theme_color": "#0B1120",
     "orientation": "portrait-primary",
     "icons": [
         {

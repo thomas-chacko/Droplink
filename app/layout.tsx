@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "Droplink",
   description: "Manage and share all your social links through a single customizable profile",
   manifest: "/manifest.json",
-  themeColor: "#1e40af",
+  themeColor: "#0B1120",
   viewport: {
     width: "device-width",
     initialScale: 1,

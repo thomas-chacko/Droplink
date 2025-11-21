@@ -3,7 +3,11 @@
     "short_name": "Droplink",
     "description": "Manage and share all your social links through a single customizable profile",
     "start_url": "/",
-    "display": "standalone",
+    "display": "fullscreen",
+    "display_override": [
+        "fullscreen",
+        "standalone"
+    ],
     "background_color": "#1e3a8a",
     "theme_color": "#1e40af",
     "orientation": "portrait-primary",

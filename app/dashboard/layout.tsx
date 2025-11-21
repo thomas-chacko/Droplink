@@ -183,9 +183,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                     {/* Page Content */}
                     <div className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-                        <div className="max-w-6xl mx-auto">
+                        {/* <div className="max-w-6xl mx-auto"> */}
                             {children}
-                        </div>
+                        {/* </div> */}
                     </div>
                 </main>
             </div>

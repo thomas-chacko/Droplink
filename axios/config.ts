@@ -1,8 +1,11 @@
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { useRouter } from 'next/navigation';
+
+const router = useRouter()
 
 // Create axios instance with default config
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -14,11 +17,11 @@ axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // Add auth token if available
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    
+
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return config;
   },
   (error: AxiosError) => {
@@ -39,7 +42,8 @@ axiosInstance.interceptors.response.use(
           // Unauthorized - clear token and redirect to login
           if (typeof window !== 'undefined') {
             localStorage.removeItem('token');
-            window.location.href = '/login';
+            // window.location.href = '/login';
+            router.push("/login")
           }
           break;
         case 403:
@@ -59,7 +63,7 @@ axiosInstance.interceptors.response.use(
     } else {
       console.error('Error setting up request:', error.message);
     }
-    
+
     return Promise.reject(error);
   }
 );

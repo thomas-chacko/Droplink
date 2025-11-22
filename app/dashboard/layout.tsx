@@ -9,13 +9,14 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { authServices } from '@/services/authServices';
 import LogoImage from "@/public/images/logoImage.png";
 import { usePWAInstall } from '@/hooks/usePWAInstall';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
-    const username = 'johndoe';
     const { installPWA, isInstallable } = usePWAInstall();
+    const { user } = useAuthStore();
 
     const handleLogout = () => {
         authServices.logout();
@@ -131,11 +132,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <div className="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-blue-500/10 rounded-xl p-4">
                             <div className="flex items-center gap-3 mb-2">
                                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold">
-                                    JD
+                                    {user?.username?.substring(0, 2).toUpperCase() || 'U'}
                                 </div>
                                 <div className="overflow-hidden">
-                                    <p className="text-sm font-medium text-white truncate">John Doe</p>
-                                    <p className="text-xs text-slate-400 truncate">Free Plan</p>
+                                    <p className="text-sm font-medium text-white truncate">{user?.username || 'User'}</p>
+                                    <p className="text-xs text-slate-400 truncate">{user?.isPremium ? 'Premium Plan' : 'Free Plan'}</p>
                                 </div>
                             </div>
                         </div>
@@ -182,7 +183,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             <div className="flex items-center gap-3 pl-2">
                                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-[2px] ring-2 ring-black/20">
                                     <div className="w-full h-full rounded-full bg-[#0B1120] flex items-center justify-center">
-                                        <span className="text-xs font-bold text-white">JD</span>
+                                        <span className="text-xs font-bold text-white">{user?.username?.substring(0, 2).toUpperCase() || 'U'}</span>
                                     </div>
                                 </div>
                             </div>

@@ -3,10 +3,12 @@
 import { Eye, MousePointerClick, BarChart3, TrendingUp, Users, Copy, ArrowUpRight, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function DashboardPage() {
   const [copied, setCopied] = useState(false);
-  const username = 'johndoe';
+  const { user } = useAuthStore();
+  const username = user?.username || 'user';
 
   const copyProfileUrl = () => {
     navigator.clipboard.writeText(`droplink.com/${username}`);

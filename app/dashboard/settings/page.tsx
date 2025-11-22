@@ -2,8 +2,10 @@
 
 import { User, Lock, Bell, Shield, Trash2, Mail, Globe, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function SettingsPage() {
+  const { user } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [notifications, setNotifications] = useState({
     email: true,
@@ -34,28 +36,29 @@ export default function SettingsPage() {
             <label className="block text-sm font-medium text-slate-300 mb-2">Username</label>
             <input
               type="text"
-              defaultValue="johndoe"
+              defaultValue={user?.username || ''}
               className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
-            <p className="text-xs text-slate-500 mt-1">Your profile will be available at droplink.com/johndoe</p>
+            <p className="text-xs text-slate-500 mt-1">Your profile will be available at droplink.com/{user?.username || 'username'}</p>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
             <input
               type="email"
-              defaultValue="john.doe@example.com"
+              defaultValue={user?.email || ''}
               className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
-            <input
-              type="text"
-              defaultValue="John Doe"
-              className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            />
+            <label className="block text-sm font-medium text-slate-300 mb-2">Account Type</label>
+            <div className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white flex items-center justify-between">
+              <span>{user?.isPremium ? 'Premium Account' : 'Free Account'}</span>
+              {!user?.isPremium && (
+                <span className="text-xs bg-blue-600 px-3 py-1 rounded-full">Upgrade Available</span>
+              )}
+            </div>
           </div>
 
           <button className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-all shadow-lg shadow-blue-900/20">

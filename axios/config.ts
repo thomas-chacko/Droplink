@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { useAuthStore } from '@/store/useAuthStore';
 
 // Create axios instance with default config
 const axiosInstance: AxiosInstance = axios.create({
@@ -12,8 +13,8 @@ const axiosInstance: AxiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Add auth token if available
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    // Add auth token from Zustand store
+    const token = typeof window !== 'undefined' ? useAuthStore.getState().token : null;
 
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -36,9 +37,9 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          // Unauthorized - clear token and redirect to login
+          // Unauthorized - clear auth and redirect to login
           if (typeof window !== 'undefined') {
-            localStorage.removeItem('token');
+            useAuthStore.getState().clearAuth();
             window.location.href = '/login';
           }
           break;

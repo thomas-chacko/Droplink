@@ -1,6 +1,6 @@
 import axiosInstance from "@/axios/config"
 import { API_ENDPOINTS } from "@/urls"
-import { getAuthToken, getAuthUser, clearAuth } from "@/lib/auth"
+import { useAuthStore, User } from "@/store/useAuthStore"
 
 interface LoginCredentials {
     email: string;
@@ -17,12 +17,7 @@ interface AuthResponse {
     success: boolean;
     message: string;
     token?: string;
-    user?: {
-        id: string;
-        username: string;
-        email: string;
-        isPremium: boolean;
-    };
+    user?: User;
 }
 
 export const authServices = {
@@ -37,21 +32,22 @@ export const authServices = {
     },
 
     logout: () => {
-        clearAuth();
+        useAuthStore.getState().clearAuth();
     },
 
-    saveAuthData: (token: string, user: any) => {
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-        }
+    saveAuthData: (token: string, user: User) => {
+        useAuthStore.getState().setAuth(token, user);
     },
 
     getToken: (): string | null => {
-        return getAuthToken();
+        return useAuthStore.getState().token;
     },
 
-    getUser: () => {
-        return getAuthUser();
+    getUser: (): User | null => {
+        return useAuthStore.getState().user;
+    },
+
+    isAuthenticated: (): boolean => {
+        return useAuthStore.getState().isAuthenticated;
     }
 }

@@ -1,32 +1,26 @@
 /**
  * Client-side authentication utilities
+ * Now using Zustand for state management with localStorage persistence
  */
+
+import { useAuthStore } from '@/store/useAuthStore';
 
 export const isAuthenticated = (): boolean => {
     if (typeof window === 'undefined') return false;
-
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
-
-    // Check if both token and user exist
-    return !!(token && user);
+    return useAuthStore.getState().isAuthenticated;
 };
 
 export const getAuthToken = (): string | null => {
     if (typeof window === 'undefined') return null;
-    return localStorage.getItem('token');
+    return useAuthStore.getState().token;
 };
 
 export const getAuthUser = () => {
     if (typeof window === 'undefined') return null;
-
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    return useAuthStore.getState().user;
 };
 
 export const clearAuth = () => {
     if (typeof window === 'undefined') return;
-
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    useAuthStore.getState().clearAuth();
 };

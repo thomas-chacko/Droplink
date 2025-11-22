@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { User, Link as LinkIcon, Palette, LogOut, X, LayoutDashboard, Menu, Smartphone } from 'lucide-react';
+import { User, Link as LinkIcon, Palette, LogOut, X, LayoutDashboard, Menu, Smartphone, BarChart3, Settings } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -24,6 +24,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     const navItems = [
         { href: '/dashboard', icon: LayoutDashboard, label: 'Overview' },
+        { href: '/dashboard/analytics', icon: BarChart3, label: 'Analytics' },
         { href: '/dashboard/profile', icon: User, label: 'Profile' },
         { href: '/dashboard/links', icon: LinkIcon, label: 'My Links' },
         { href: '/dashboard/theme', icon: Palette, label: 'Theme', isPro: true },
@@ -94,7 +95,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </nav>
 
                         <div className="space-y-1.5">
-                            <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Settings</p>
+                            <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Account</p>
+                            <Link
+                                href="/dashboard/settings"
+                                onClick={() => setSidebarOpen(false)}
+                                className={`group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                                    pathname === '/dashboard/settings'
+                                        ? 'bg-slate-700 text-white'
+                                        : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                                }`}
+                            >
+                                <Settings className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
+                                <span className="font-medium">Settings</span>
+                            </Link>
                             {isInstallable && (
                                 <button
                                     onClick={installPWA}
@@ -144,18 +157,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             <div className="flex flex-col">
                                 <h1 className="text-xl font-bold text-white tracking-tight">
                                     {pathname === '/dashboard' && 'Dashboard'}
+                                    {pathname === '/dashboard/analytics' && 'Analytics'}
                                     {pathname === '/dashboard/profile' && 'Profile'}
                                     {pathname === '/dashboard/links' && 'Links'}
                                     {pathname === '/dashboard/theme' && 'Theme'}
+                                    {pathname === '/dashboard/settings' && 'Settings'}
                                 </h1>
                                 <div className="flex items-center gap-2 text-sm text-slate-400">
                                     <span>Overview</span>
                                     <span className="text-slate-600">/</span>
                                     <span className="text-blue-400">
                                         {pathname === '/dashboard' && 'Home'}
+                                        {pathname === '/dashboard/analytics' && 'Insights'}
                                         {pathname === '/dashboard/profile' && 'Settings'}
                                         {pathname === '/dashboard/links' && 'Management'}
                                         {pathname === '/dashboard/theme' && 'Customization'}
+                                        {pathname === '/dashboard/settings' && 'Account'}
                                     </span>
                                 </div>
                             </div>

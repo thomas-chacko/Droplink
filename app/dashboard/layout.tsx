@@ -1,21 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { User, Link as LinkIcon, Palette, LogOut, X, LayoutDashboard, Menu, Smartphone, BarChart3, Settings } from 'lucide-react';
+import { User, Link as LinkIcon, Palette, LogOut, X, LayoutDashboard, Menu, BarChart3, Settings } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { authServices } from '@/services/authServices';
 import LogoImage from "@/public/images/logoImage.png";
-import { usePWAInstall } from '@/hooks/usePWAInstall';
 import { useAuthStore } from '@/store/useAuthStore';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
-    const { installPWA, isInstallable } = usePWAInstall();
     const { user } = useAuthStore();
 
     const handleLogout = () => {
@@ -109,15 +107,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 <Settings className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
                                 <span className="font-medium">Settings</span>
                             </Link>
-                            {isInstallable && (
-                                <button
-                                    onClick={installPWA}
-                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all duration-200 group"
-                                >
-                                    <Smartphone className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
-                                    <span className="font-medium">Get App</span>
-                                </button>
-                            )}
                             <button
                                 onClick={handleLogout}
                                 className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 group"

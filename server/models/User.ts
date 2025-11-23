@@ -1,4 +1,4 @@
-import mongoose, { Schema, Model } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { Settings, Theme, User } from "@/types/user";
 
 const ThemeSchema = new Schema<Theme>({

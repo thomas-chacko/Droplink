@@ -1,16 +1,26 @@
 export interface Theme {
     bgColor: string
     textColor: string
+    bgStyle: "light" | "dark" | "gradient"
+    buttonStyle: "rounded" | "square" | "outline"
+}
+
+export interface Settings {
+    isPublic?: boolean
+    customDomain?: string
+    showPremiumBadge?: boolean
 }
 
 export interface User {
     _id: string
     username: string
-    name?: string  // Make name optional
-    theme?: Theme  // Make theme optional
+    name?: string
+    theme?: Theme
     email: string
     password: string
-    avatar?: string  // Make avatar optional
-    bio?: string   // Make bio optional
+    avatar?: string
+    bio?: string
     isPremium: boolean
+    socialLinks?: { [key: string]: string }
+    settings?: boolean
 }

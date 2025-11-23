@@ -1,5 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { Theme, User } from "@/types/user";
+import { Settings, Theme, User } from "@/types/user";
 
 const ThemeSchema = new Schema<Theme>({
     bgColor: {
@@ -9,12 +9,42 @@ const ThemeSchema = new Schema<Theme>({
     textColor: {
         type: String,
         required: false
+    },
+    bgStyle: {
+        type: String,
+        required: false,
+        default: "light",
+        enum: ["light", "dark", "gradient"]
+    },
+    buttonStyle: {
+        type: String,
+        required: false,
+        default: "rounded",
+        enum: ["rounded", "square", "outline"]
     }
 },
     {
         _id: false
     }
 )
+
+const SettingsSchema = new Schema<Settings>({
+    isPublic: {
+        type: Boolean,
+        required: false,
+    },
+    customDomain: {
+        type: String,
+        required: false,
+    },
+    showPremiumBadge: {
+        type: Boolean,
+        required: false,
+    }
+},
+    {
+        _id: false
+    })
 
 const UsersSchema = new Schema<User>({
     username: {
@@ -31,10 +61,6 @@ const UsersSchema = new Schema<User>({
         trim: true,
         minlength: 3,
         maxlength: 30
-    },
-    theme: {
-        type: ThemeSchema,
-        required: false
     },
     email: {
         type: String,
@@ -60,6 +86,19 @@ const UsersSchema = new Schema<User>({
         type: Boolean,
         required: false,
         default: false
+    },
+    theme: {
+        type: ThemeSchema,
+        required: false
+    },
+    socialLinks: {
+        type: Map,
+        of: String,
+        required: false
+    },
+    settings: {
+        type: SettingsSchema,
+        required: false
     }
 },
     {
@@ -67,7 +106,10 @@ const UsersSchema = new Schema<User>({
     }
 )
 
-// Ensure the model is always updated with the latest schema
+// indexes
+UsersSchema.index({ username: 1 }, { unique: true });
+UsersSchema.index({ email: 1 }, { unique: true });
+
 const UserModel = mongoose.models.User ?
     mongoose.model<User>('User') :
     mongoose.model<User>('User', UsersSchema);

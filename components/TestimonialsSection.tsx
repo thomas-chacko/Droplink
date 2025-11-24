@@ -33,7 +33,7 @@ const testimonials = [
     name: "Lisa Thompson",
     role: "Entrepreneur",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lisa",
-    content: "The analytics help me understand what my audience cares about. Game changer for my business strategy.",
+    content: "The customization options help me showcase my brand perfectly. Game changer for my business strategy.",
     rating: 5
   },
   {

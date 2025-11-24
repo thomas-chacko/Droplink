@@ -1,4 +1,4 @@
-import { UserPlus, Palette, Share2, TrendingUp } from 'lucide-react';
+import { UserPlus, Palette, Share2 } from 'lucide-react';
 
 const steps = [
   {
@@ -18,12 +18,6 @@ const steps = [
     step: "03",
     title: "Share Your Link",
     description: "Get your personalized droplink.com/yourname and share it everywhere."
-  },
-  {
-    icon: TrendingUp,
-    step: "04",
-    title: "Track & Grow",
-    description: "Watch your analytics and see what content resonates with your audience."
   }
 ];
 
@@ -32,17 +26,17 @@ export default function HowItWorksSection() {
     <section className="container mx-auto px-6 md:px-8 lg:px-12 py-7 md:py-10 lg:py-10">
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-          Get started in <span className="text-yellow-400">4 simple steps</span>
+          Get started in <span className="text-yellow-400">3 simple steps</span>
         </h2>
         <p className="text-xl text-blue-200 max-w-2xl mx-auto">
           From signup to success in minutes. No technical skills needed.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
         {/* Connection Line - Hidden on mobile */}
-        <div className="hidden lg:block absolute top-20 left-0 right-0 h-1 bg-linear-to-r from-yellow-400 via-blue-400 to-purple-400 opacity-30" 
-             style={{ width: 'calc(100% - 8rem)', left: '4rem' }} />
+        <div className="hidden lg:block absolute top-20 left-0 right-0 h-1 bg-linear-to-r from-yellow-400 via-blue-400 to-purple-400 opacity-30"
+          style={{ width: 'calc(100% - 8rem)', left: '4rem' }} />
 
         {steps.map((step, index) => {
           const Icon = step.icon;

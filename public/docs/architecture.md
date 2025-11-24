@@ -102,7 +102,7 @@
   },
   settings: {
     isPublic: boolean (default: true),
-    showAnalytics: boolean (default: true),
+
     customDomain: string (optional, premium only)
   },
   createdAt: Date,
@@ -152,50 +152,7 @@
 
 ---
 
-#### 3. Analytics Collection
 
-```typescript
-{
-  _id: ObjectId,
-  userId: ObjectId (ref: Users, indexed),
-  linkId: ObjectId (ref: Links, indexed, optional),
-  eventType: 'profile_view' | 'link_click',
-  
-  // Visitor Information
-  visitorId: string (anonymous hash for unique tracking),
-  ipAddress: string (hashed for privacy),
-  
-  // Device & Browser
-  device: 'mobile' | 'desktop' | 'tablet',
-  browser: string,
-  os: string,
-  
-  // Location (from IP geolocation)
-  country: string,
-  city: string,
-  region: string,
-  
-  // Referrer Information
-  referrer: string (where they came from),
-  referrerDomain: string,
-  
-  // UTM Parameters (for marketing tracking)
-  utmSource: string (optional),
-  utmMedium: string (optional),
-  utmCampaign: string (optional),
-  
-  timestamp: Date (indexed),
-  createdAt: Date
-}
-```
-
-**Indexes:**
-- `userId + timestamp` (compound, for time-range queries)
-- `linkId + timestamp` (compound, for link-specific analytics)
-- `userId + eventType + timestamp` (compound, for filtered queries)
-- `timestamp` (TTL index, optional - auto-delete old data after 90 days for free users)
-
----
 
 
 ## 🎨 Frontend Architecture
@@ -221,81 +178,6 @@ app/
 │   ├── profile/
 │   │   └── page.tsx           # Profile management
 │   │
-│   ├── links/
-│   │   └── page.tsx           # Link management (CRUD)
-│   │
-│   ├── theme/
-│   │   └── page.tsx           # Theme customization
-│   │
-│   ├── analytics/
-│   │   └── page.tsx           # Analytics dashboard
-│   │
-│   └── settings/
-│       └── page.tsx           # Account settings
-│
-├── [username]/
-│   └── page.tsx               # Public profile view
-│
-└── api/                        # API Routes
-    ├── auth/
-    │   ├── login/
-    │   │   └── route.ts       # ✅ POST /api/auth/login (COMPLETED)
-    │   └── signup/
-    │       └── route.ts       # ✅ POST /api/auth/signup (COMPLETED)
-    │
-    ├── profile/
-    │   ├── route.ts           # GET, PUT /api/profile
-    │   └── avatar/
-    │       └── route.ts       # POST /api/profile/avatar
-    │
-    ├── links/
-    │   ├── route.ts           # GET, POST /api/links
-    │   └── [id]/
-    │       └── route.ts       # GET, PUT, DELETE /api/links/:id
-    │
-    ├── theme/
-    │   └── route.ts           # GET, PUT /api/theme
-    │
-    ├── analytics/
-    │   ├── overview/
-    │   │   └── route.ts       # GET /api/analytics/overview
-    │   ├── links/
-    │   │   └── route.ts       # GET /api/analytics/links
-    │   └── track/
-    │       └── route.ts       # POST /api/analytics/track
-    │
-    └── public/
-        └── [username]/
-            └── route.ts       # GET /api/public/:username
-```
-
-### Component Structure
-
-```
-components/
-├── AuthRedirect.tsx           # ✅ Redirect logic (COMPLETED)
-├── ProtectedRoute.tsx         # ✅ Auth guard (COMPLETED)
-├── Header.tsx                 # Landing page header
-├── Footer.tsx                 # Landing page footer
-├── HeroSection.tsx            # Landing sections
-├── FeaturesSection.tsx
-├── TestimonialsSection.tsx
-├── HowItWorksSection.tsx
-├── PricingSection.tsx
-│
-├── dashboard/                 # Dashboard-specific components
-│   ├── Sidebar.tsx           # Navigation sidebar
-│   ├── StatsCard.tsx         # Metric display cards
-│   ├── LinkCard.tsx          # Individual link item
-│   ├── LinkForm.tsx          # Add/Edit link form
-│   ├── ThemePreview.tsx      # Live theme preview
-│   ├── AnalyticsChart.tsx    # Chart components
-│   └── DeviceBreakdown.tsx   # Device analytics
-│
-└── profile/                   # Public profile components
-    ├── ProfileHeader.tsx     # Avatar, name, bio
-    ├── LinkButton.tsx        # Styled link button
-    └── SocialIcons.tsx       # Social media icons
 ```
 
 ### State Management (Zustand)
@@ -331,16 +213,7 @@ interface ThemeState {
   updateTheme: (theme: Partial<Theme>) => Promise<void>
 }
 
-// store/useAnalyticsStore.ts - TO BE CREATED
-interface AnalyticsState {
-  overview: AnalyticsOverview | null
-  linkStats: LinkAnalytics[]
-  timeRange: '24h' | '7d' | '30d' | '90d'
-  isLoading: boolean
-  setTimeRange: (range: string) => void
-  fetchOverview: () => Promise<void>
-  fetchLinkStats: () => Promise<void>
-}
+
 ```
 
 ---
@@ -691,136 +564,7 @@ Business Logic:
 
 ---
 
-### Analytics APIs (TO BE IMPLEMENTED)
 
-#### GET /api/analytics/overview
-**Description:** Get analytics overview
-**Auth:** Required (JWT)
-
-```typescript
-Query Parameters:
-- timeRange: '24h' | '7d' | '30d' | '90d' (default: '7d')
-
-Response (200):
-{
-  success: true,
-  analytics: {
-    profileViews: {
-      total: number,
-      change: number (percentage)
-    },
-    linkClicks: {
-      total: number,
-      change: number
-    },
-    uniqueVisitors: {
-      total: number,
-      change: number
-    },
-    avgTimeOnPage: string,
-    clickThroughRate: number,
-    
-    // Time series data for charts
-    dailyStats: [
-      {
-        date: string,
-        views: number,
-        clicks: number,
-        visitors: number
-      }
-    ],
-    
-    // Device breakdown
-    deviceStats: {
-      mobile: number,
-      desktop: number,
-      tablet: number
-    },
-    
-    // Top locations
-    topLocations: [
-      {
-        country: string,
-        visitors: number,
-        percentage: number
-      }
-    ],
-    
-    // Top referrers
-    topReferrers: [
-      {
-        source: string,
-        visits: number,
-        percentage: number
-      }
-    ]
-  }
-}
-```
-
-#### GET /api/analytics/links
-**Description:** Get per-link analytics
-**Auth:** Required (JWT)
-
-```typescript
-Query Parameters:
-- timeRange: '24h' | '7d' | '30d' | '90d'
-- linkId?: string (optional, for specific link)
-
-Response (200):
-{
-  success: true,
-  linkAnalytics: [
-    {
-      linkId: string,
-      title: string,
-      url: string,
-      clicks: number,
-      uniqueClicks: number,
-      clickThroughRate: number,
-      change: number,
-      dailyClicks: [
-        {
-          date: string,
-          clicks: number
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### POST /api/analytics/track
-**Description:** Track analytics event (profile view or link click)
-**Auth:** Not required (public endpoint)
-
-```typescript
-Request:
-{
-  username: string,
-  eventType: 'profile_view' | 'link_click',
-  linkId?: string (required if eventType is 'link_click'),
-  
-  // Client-side data
-  referrer?: string,
-  utmSource?: string,
-  utmMedium?: string,
-  utmCampaign?: string
-}
-
-Response (200):
-{
-  success: true,
-  message: "Event tracked"
-}
-
-Business Logic:
-- Extract device info from User-Agent
-- Get IP address from request headers
-- Use IP geolocation service (ip-api.com, ipinfo.io)
-- Generate anonymous visitorId (hash of IP + User-Agent)
-- Rate limiting to prevent spam
-```
 
 ---
 
@@ -1140,56 +884,7 @@ const nextConfig = {
 
 ---
 
-### Phase 4: Analytics (PRIORITY 2)
 
-#### Frontend Tasks:
-1. **Analytics Page (`/dashboard/analytics`)**
-   - ✅ Basic UI already exists
-   - Connect to real API data
-   - Implement time range filtering
-   - Add chart library (recharts or chart.js)
-   - Display metrics:
-     - Profile views
-     - Link clicks
-     - Unique visitors
-     - Device breakdown
-     - Geographic data
-     - Top referrers
-   - Export data (CSV) - premium feature
-
-2. **Dashboard Overview**
-   - ✅ Stats cards already exist
-   - Connect to real analytics data
-   - Show recent activity
-
-#### Backend Tasks:
-1. **Create Analytics Model**
-   - Define schema (see database design)
-   - Add indexes for performance
-
-2. **Implement Analytics APIs**
-   - `GET /api/analytics/overview` - Overview stats
-   - `GET /api/analytics/links` - Per-link stats
-   - `POST /api/analytics/track` - Track events
-   - Implement aggregation queries
-   - Add caching for performance
-
-3. **Analytics Tracking**
-   - Track profile views on public profile
-   - Track link clicks
-   - Extract device info from User-Agent
-   - Implement IP geolocation
-   - Generate anonymous visitor IDs
-
-4. **Background Jobs (Optional)**
-   - Pre-aggregate daily stats
-   - Clean up old analytics data
-
-#### Testing:
-- Test event tracking
-- Test analytics queries with large datasets
-- Test time range filtering
-- Test data accuracy
 
 ---
 
@@ -1654,19 +1349,19 @@ const stats = await Analytics.aggregate([
 ### Free Plan Features:
 - ✅ Unlimited profile views
 - ✅ Up to 10 links
-- ✅ Basic analytics (7 days)
+
 - ✅ Default themes
 - ✅ Social media icons
 - ✅ Custom username
 
 ### Premium Plan Features ($9.99/month):
 - ✅ Unlimited links
-- ✅ Advanced analytics (90 days)
+
 - ✅ Custom themes & colors
 - ✅ Remove Droplink branding
 - ✅ Custom domain (optional)
 - ✅ Priority support
-- ✅ Export analytics data
+
 - ✅ Link scheduling
 - ✅ Custom link thumbnails
 
@@ -1696,26 +1391,10 @@ const stats = await Analytics.aggregate([
 3. Backend queries User and Links collections
 4. Backend returns profile data
 5. Frontend renders profile with theme
-6. Frontend sends POST /api/analytics/track (profile_view)
-7. Backend extracts IP, User-Agent
-8. Backend gets geolocation from IP
-9. Backend creates analytics record
-10. Backend increments profile view count
+
 ```
 
-### User Views Analytics:
-```
-1. User navigates to /dashboard/analytics
-2. User selects time range (7d)
-3. Frontend fetches GET /api/analytics/overview?timeRange=7d
-4. Backend verifies JWT
-5. Backend runs aggregation queries on Analytics collection
-6. Backend calculates metrics (views, clicks, CTR, etc.)
-7. Backend returns aggregated data
-8. Frontend renders charts and stats
-9. User can filter by date range
-10. Frontend refetches with new parameters
-```
+
 
 ---
 
@@ -1739,13 +1418,13 @@ const stats = await Analytics.aggregate([
 4. Redirect to dashboard → Welcome message
 5. Add first link → Guided tutorial (optional)
 6. Customize profile → Preview profile
-7. Share profile URL → Track analytics
+7. Share profile URL
 ```
 
 **Returning User Journey:**
 ```
 1. Login → Dashboard
-2. View analytics overview
+
 3. Manage links (add/edit/delete)
 4. Customize theme
 5. Share profile
@@ -1761,7 +1440,7 @@ const stats = await Analytics.aggregate([
 
 ### Performance Optimization
 - Image optimization (Next.js Image component)
-- Lazy loading for analytics charts
+
 - Code splitting
 - API response caching
 - Database query optimization
@@ -1781,7 +1460,7 @@ const stats = await Analytics.aggregate([
 - API endpoints
 - Authentication flow
 - CRUD operations
-- Analytics tracking
+
 
 ### E2E Tests (Optional)
 - User signup/login

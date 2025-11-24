@@ -1,6 +1,6 @@
 'use client';
 
-import { Eye, MousePointerClick, BarChart3, TrendingUp, Users, Copy, ArrowUpRight, ExternalLink } from 'lucide-react';
+import { Eye, Copy, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -44,163 +44,66 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl p-5 border border-white/5 hover:border-white/10 transition-colors group">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
-              <Eye className="w-5 h-5 text-blue-400" />
-            </div>
-            <span className="flex items-center gap-1 text-xs text-emerald-400 font-medium bg-emerald-400/10 px-2 py-1 rounded-full">
-              <TrendingUp className="w-3 h-3" />
-              +12%
-            </span>
-          </div>
-          <p className="text-3xl font-bold text-white mb-1">2,847</p>
-          <p className="text-sm text-slate-400">Total Views</p>
-        </div>
-
-        <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl p-5 border border-white/5 hover:border-white/10 transition-colors group">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-purple-500/10 rounded-lg group-hover:bg-purple-500/20 transition-colors">
-              <MousePointerClick className="w-5 h-5 text-purple-400" />
-            </div>
-            <span className="flex items-center gap-1 text-xs text-emerald-400 font-medium bg-emerald-400/10 px-2 py-1 rounded-full">
-              <TrendingUp className="w-3 h-3" />
-              +8%
-            </span>
-          </div>
-          <p className="text-3xl font-bold text-white mb-1">1,234</p>
-          <p className="text-sm text-slate-400">Total Clicks</p>
-        </div>
-
-        <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl p-5 border border-white/5 hover:border-white/10 transition-colors group">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-emerald-500/10 rounded-lg group-hover:bg-emerald-500/20 transition-colors">
-              <BarChart3 className="w-5 h-5 text-emerald-400" />
-            </div>
-            <span className="text-xs text-slate-400 font-medium">Avg. CTR</span>
-          </div>
-          <p className="text-3xl font-bold text-white mb-1">43.4%</p>
-          <p className="text-sm text-slate-400">Click Rate</p>
-        </div>
-
-        <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl p-5 border border-white/5 hover:border-white/10 transition-colors group">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-orange-500/10 rounded-lg group-hover:bg-orange-500/20 transition-colors">
-              <Users className="w-5 h-5 text-orange-400" />
-            </div>
-            <span className="flex items-center gap-1 text-xs text-emerald-400 font-medium bg-emerald-400/10 px-2 py-1 rounded-full">
-              <TrendingUp className="w-3 h-3" />
-              +24%
-            </span>
-          </div>
-          <p className="text-3xl font-bold text-white mb-1">892</p>
-          <p className="text-sm text-slate-400">New Visitors</p>
-        </div>
-      </div>
-
-      {/* Recent Activity */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-[#1E293B]/50 backdrop-blur-sm rounded-xl border border-white/5 overflow-hidden">
-          <div className="p-6 border-b border-white/5 flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">Top Performing Links</h3>
-            <button className="text-sm text-blue-400 hover:text-blue-300 transition-colors">View All</button>
-          </div>
-          <div className="p-6 space-y-4">
-            {[
-              { title: 'My Portfolio Website', url: 'portfolio.com', clicks: 456, ctr: '52%' },
-              { title: 'Instagram Profile', url: 'instagram.com/johndoe', clicks: 389, ctr: '45%' },
-              { title: 'YouTube Channel', url: 'youtube.com/@johndoe', clicks: 234, ctr: '38%' },
-            ].map((link, i) => (
-              <div key={i} className="flex items-center justify-between p-4 bg-[#0B1120]/50 rounded-xl border border-white/5 hover:border-white/10 transition-all group">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-white transition-colors">
-                    <LinkIcon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-white group-hover:text-blue-400 transition-colors">{link.title}</p>
-                    <p className="text-xs text-slate-500">{link.url}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6">
-                  <div className="text-right hidden sm:block">
-                    <p className="text-sm font-medium text-white">{link.clicks}</p>
-                    <p className="text-xs text-slate-500">Clicks</p>
-                  </div>
-                  <div className="text-right w-16">
-                    <div className="flex items-center justify-end gap-1 text-emerald-400 text-sm font-medium">
-                      <TrendingUp className="w-3 h-3" />
-                      {link.ctr}
-                    </div>
-                    <p className="text-xs text-slate-500">CTR</p>
-                  </div>
-                </div>
+      {/* Quick Actions */}
+      <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl border border-white/5 p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
+        <div className="grid md:grid-cols-3 gap-4">
+          <Link
+            href="/dashboard/links"
+            className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-blue-600/10 rounded-xl border border-white/5 hover:border-blue-500/50 transition-all"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                <LinkIcon className="w-4 h-4" />
               </div>
-            ))}
-          </div>
+              <div>
+                <p className="font-medium text-white group-hover:text-blue-400 transition-colors">Add New Link</p>
+                <p className="text-xs text-slate-500">Create a new link for your profile</p>
+              </div>
+            </div>
+            <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
+          </Link>
+
+          <Link
+            href="/dashboard/theme"
+            className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-purple-600/10 rounded-xl border border-white/5 hover:border-purple-500/50 transition-all"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                <Palette className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="font-medium text-white group-hover:text-purple-400 transition-colors">Customize Theme</p>
+                <p className="text-xs text-slate-500">Update your profile appearance</p>
+              </div>
+            </div>
+            <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-purple-400 transition-colors" />
+          </Link>
+
+          <Link
+            href="/dashboard/profile"
+            className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-emerald-600/10 rounded-xl border border-white/5 hover:border-emerald-500/50 transition-all"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                <User className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="font-medium text-white group-hover:text-emerald-400 transition-colors">Edit Profile</p>
+                <p className="text-xs text-slate-500">Update bio and social links</p>
+              </div>
+            </div>
+            <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+          </Link>
         </div>
 
-        <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl border border-white/5 p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
-          <div className="space-y-3">
-            <Link
-              href="/dashboard/links"
-              className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-blue-600/10 rounded-xl border border-white/5 hover:border-blue-500/50 transition-all"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                  <LinkIcon className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-white group-hover:text-blue-400 transition-colors">Add New Link</p>
-                  <p className="text-xs text-slate-500">Create a new link for your profile</p>
-                </div>
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
-            </Link>
-
-            <Link
-              href="/dashboard/theme"
-              className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-purple-600/10 rounded-xl border border-white/5 hover:border-purple-500/50 transition-all"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                  <Palette className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-white group-hover:text-purple-400 transition-colors">Customize Theme</p>
-                  <p className="text-xs text-slate-500">Update your profile appearance</p>
-                </div>
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-purple-400 transition-colors" />
-            </Link>
-
-            <Link
-              href="/dashboard/profile"
-              className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-emerald-600/10 rounded-xl border border-white/5 hover:border-emerald-500/50 transition-all"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
-                  <User className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-white group-hover:text-emerald-400 transition-colors">Edit Profile</p>
-                  <p className="text-xs text-slate-500">Update bio and social links</p>
-                </div>
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition-colors" />
-            </Link>
-          </div>
-
-          <div className="mt-6 pt-6 border-t border-white/5">
-            <div className="p-4 rounded-xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-500/20">
-              <h4 className="font-medium text-white mb-1">Upgrade to Pro</h4>
-              <p className="text-xs text-slate-400 mb-3">Get access to advanced analytics and custom themes.</p>
-              <button className="w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-blue-900/20">
-                Upgrade Now
-              </button>
-            </div>
+        <div className="mt-6 pt-6 border-t border-white/5">
+          <div className="p-4 rounded-xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-500/20">
+            <h4 className="font-medium text-white mb-1">Upgrade to Pro</h4>
+            <p className="text-xs text-slate-400 mb-3">Get access to custom themes and more.</p>
+            <button className="w-full md:w-auto px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-blue-900/20">
+              Upgrade Now
+            </button>
           </div>
         </div>
       </div>

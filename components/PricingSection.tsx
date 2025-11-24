@@ -7,7 +7,6 @@ const plans = [
     description: "Perfect for getting started",
     features: [
       "Unlimited links",
-      "Basic analytics",
       "Custom username",
       "Mobile optimized",
       "Email support"
@@ -21,7 +20,6 @@ const plans = [
     description: "For serious creators",
     features: [
       "Everything in Free",
-      "Advanced analytics",
       "Remove Droplink branding",
       "Custom domains",
       "Priority support",
@@ -65,11 +63,10 @@ export default function PricingSection() {
         {plans.map((plan, index) => (
           <div
             key={index}
-            className={`relative rounded-3xl p-8 border-2 transition-all duration-300 hover:scale-105 ${
-              plan.popular
+            className={`relative rounded-3xl p-8 border-2 transition-all duration-300 hover:scale-105 ${plan.popular
                 ? 'bg-yellow-400 border-yellow-400 shadow-2xl'
                 : 'bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/15'
-            }`}
+              }`}
           >
             {/* Popular Badge */}
             {plan.popular && (
@@ -104,11 +101,10 @@ export default function PricingSection() {
             {/* CTA Button */}
             <a
               href="/signup"
-              className={`block w-full py-4 rounded-full font-bold text-center mb-8 transition ${
-                plan.popular
+              className={`block w-full py-4 rounded-full font-bold text-center mb-8 transition ${plan.popular
                   ? 'bg-gray-900 text-white hover:bg-gray-800'
                   : 'bg-yellow-400 text-gray-900 hover:bg-yellow-300'
-              }`}
+                }`}
             >
               {plan.cta}
             </a>
@@ -117,9 +113,8 @@ export default function PricingSection() {
             <ul className="space-y-4">
               {plan.features.map((feature, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <Check className={`w-5 h-5 shrink-0 mt-0.5 ${
-                    plan.popular ? 'text-gray-900' : 'text-yellow-400'
-                  }`} />
+                  <Check className={`w-5 h-5 shrink-0 mt-0.5 ${plan.popular ? 'text-gray-900' : 'text-yellow-400'
+                    }`} />
                   <span className={plan.popular ? 'text-gray-800' : 'text-white'}>
                     {feature}
                   </span>

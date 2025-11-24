@@ -10,7 +10,6 @@ export default function SettingsPage() {
   const [notifications, setNotifications] = useState({
     email: true,
     marketing: false,
-    analytics: true,
   });
 
   return (
@@ -140,14 +139,12 @@ export default function SettingsPage() {
             </div>
             <button
               onClick={() => setNotifications({ ...notifications, email: !notifications.email })}
-              className={`relative w-12 h-6 rounded-full transition-colors ${
-                notifications.email ? 'bg-blue-600' : 'bg-slate-700'
-              }`}
+              className={`relative w-12 h-6 rounded-full transition-colors ${notifications.email ? 'bg-blue-600' : 'bg-slate-700'
+                }`}
             >
               <div
-                className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                  notifications.email ? 'translate-x-6' : 'translate-x-0'
-                }`}
+                className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${notifications.email ? 'translate-x-6' : 'translate-x-0'
+                  }`}
               ></div>
             </button>
           </div>
@@ -162,39 +159,17 @@ export default function SettingsPage() {
             </div>
             <button
               onClick={() => setNotifications({ ...notifications, marketing: !notifications.marketing })}
-              className={`relative w-12 h-6 rounded-full transition-colors ${
-                notifications.marketing ? 'bg-blue-600' : 'bg-slate-700'
-              }`}
+              className={`relative w-12 h-6 rounded-full transition-colors ${notifications.marketing ? 'bg-blue-600' : 'bg-slate-700'
+                }`}
             >
               <div
-                className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                  notifications.marketing ? 'translate-x-6' : 'translate-x-0'
-                }`}
+                className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${notifications.marketing ? 'translate-x-6' : 'translate-x-0'
+                  }`}
               ></div>
             </button>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-[#0B1120]/50 rounded-lg border border-white/5">
-            <div className="flex items-center gap-3">
-              <Shield className="w-5 h-5 text-slate-400" />
-              <div>
-                <p className="text-sm font-medium text-white">Weekly Analytics Report</p>
-                <p className="text-xs text-slate-500">Get weekly insights about your profile</p>
-              </div>
-            </div>
-            <button
-              onClick={() => setNotifications({ ...notifications, analytics: !notifications.analytics })}
-              className={`relative w-12 h-6 rounded-full transition-colors ${
-                notifications.analytics ? 'bg-blue-600' : 'bg-slate-700'
-              }`}
-            >
-              <div
-                className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                  notifications.analytics ? 'translate-x-6' : 'translate-x-0'
-                }`}
-              ></div>
-            </button>
-          </div>
+
         </div>
       </div>
 

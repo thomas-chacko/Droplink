@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { User, Link as LinkIcon, Palette, LogOut, X, LayoutDashboard, Menu, BarChart3, Settings } from 'lucide-react';
+import { User, Link as LinkIcon, Palette, LogOut, X, LayoutDashboard, Menu, Settings } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -23,7 +23,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     const navItems = [
         { href: '/dashboard', icon: LayoutDashboard, label: 'Overview' },
-        { href: '/dashboard/analytics', icon: BarChart3, label: 'Analytics' },
         { href: '/dashboard/profile', icon: User, label: 'Profile' },
         { href: '/dashboard/links', icon: LinkIcon, label: 'My Links' },
         { href: '/dashboard/theme', icon: Palette, label: 'Theme', isPro: true },
@@ -98,11 +97,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             <Link
                                 href="/dashboard/settings"
                                 onClick={() => setSidebarOpen(false)}
-                                className={`group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                                    pathname === '/dashboard/settings'
-                                        ? 'bg-slate-700 text-white'
-                                        : 'text-slate-400 hover:bg-white/5 hover:text-white'
-                                }`}
+                                className={`group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${pathname === '/dashboard/settings'
+                                    ? 'bg-slate-700 text-white'
+                                    : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                                    }`}
                             >
                                 <Settings className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
                                 <span className="font-medium">Settings</span>
@@ -147,7 +145,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             <div className="flex flex-col">
                                 <h1 className="text-xl font-bold text-white tracking-tight">
                                     {pathname === '/dashboard' && 'Dashboard'}
-                                    {pathname === '/dashboard/analytics' && 'Analytics'}
                                     {pathname === '/dashboard/profile' && 'Profile'}
                                     {pathname === '/dashboard/links' && 'Links'}
                                     {pathname === '/dashboard/theme' && 'Theme'}
@@ -158,7 +155,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                     <span className="text-slate-600">/</span>
                                     <span className="text-blue-400">
                                         {pathname === '/dashboard' && 'Home'}
-                                        {pathname === '/dashboard/analytics' && 'Insights'}
                                         {pathname === '/dashboard/profile' && 'Settings'}
                                         {pathname === '/dashboard/links' && 'Management'}
                                         {pathname === '/dashboard/theme' && 'Customization'}
@@ -182,7 +178,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     {/* Page Content */}
                     <div className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                         {/* <div className="max-w-6xl mx-auto"> */}
-                            {children}
+                        {children}
                         {/* </div> */}
                     </div>
                 </main>

@@ -12,9 +12,15 @@ import { useAuthStore } from '@/store/useAuthStore';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [logoutConformation, setLotoutConformation] = useState<boolean>(false);
+
     const pathname = usePathname();
     const router = useRouter();
     const { user } = useAuthStore();
+
+    const showLogoutConformation = () => {
+        setLotoutConformation(true);
+    }
 
     const handleLogout = () => {
         authServices.logout();
@@ -106,8 +112,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 <span className="font-medium">Settings</span>
                             </Link>
                             <button
-                                onClick={handleLogout}
-                                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 group"
+                                onClick={showLogoutConformation}
+                                className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 group"
                             >
                                 <LogOut className="w-5 h-5 text-slate-500 group-hover:text-red-400 transition-colors" />
                                 <span className="font-medium">Logout</span>
@@ -183,6 +189,61 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </div>
                 </main>
             </div>
+
+            {/* logout conformation popup */}
+            {logoutConformation && (
+                <div
+                    className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-in fade-in duration-200"
+                    onClick={() => setLotoutConformation(false)}
+                >
+                    <div
+                        className="bg-[#1E293B] rounded-2xl shadow-2xl w-full max-w-md border border-white/10 animate-in zoom-in-95 duration-200"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Icon and Header */}
+                        <div className="p-6 pb-4 text-center">
+                            <div className="mx-auto w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4">
+                                <LogOut className="w-8 h-8 text-red-400" />
+                            </div>
+                            <h2 className="text-2xl font-bold text-white mb-2">Logout Confirmation</h2>
+                            <p className="text-slate-400 text-sm">
+                                Are you sure you want to logout from your account?
+                            </p>
+                        </div>
+
+                        {/* Content */}
+                        <div className="px-6 pb-6">
+                            <div className="bg-[#0B1120]/50 rounded-xl p-4 mb-6 border border-white/5">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-sm font-bold">
+                                        {user?.username?.substring(0, 2).toUpperCase() || 'U'}
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-white">{user?.username || 'User'}</p>
+                                        <p className="text-xs text-slate-500">{user?.email || 'user@example.com'}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <button
+                                    onClick={() => setLotoutConformation(false)}
+                                    className="flex-1 cursor-pointer px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-medium rounded-xl transition-all duration-200 border border-white/10 hover:border-white/20"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex-1 cursor-pointer px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-red-900/30 hover:shadow-red-900/50"
+                                >
+                                    Yes, Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </ProtectedRoute>
     );
 }

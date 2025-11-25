@@ -9,7 +9,6 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     try {
         await connectDB();
 
-        // 1. Authentication Check
         const authenticatedUser = await verifyToken(request);
         if (!authenticatedUser) {
             return NextResponse.json(
@@ -20,7 +19,6 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
         const { id } = await params;
 
-        // 2. Validate ID Format
         if (!isValidObjectId(id)) {
             return NextResponse.json({
                 success: false,
@@ -28,7 +26,6 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
             }, { status: 400 });
         }
 
-        // 3. Fetch User
         const user = await UserModel.findById(id, { password: 0 });
 
         if (!user) {
@@ -38,7 +35,6 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
             }, { status: 404 });
         }
 
-        // 4. Success Response
         return NextResponse.json({
             success: true,
             message: 'User fetched successfully',

@@ -7,7 +7,6 @@ export async function GET(request: NextRequest) {
     try {
         await connectDB();
 
-        // 1. Authentication Check
         const user = await verifyToken(request);
         if (!user) {
             return NextResponse.json(
@@ -16,10 +15,8 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        // 2. Fetch Data
         const users = await UserModel.find({}, { password: 0 }).sort({ createdAt: -1 });
 
-        // 3. Success Response
         return NextResponse.json({
             success: true,
             message: 'Users fetched successfully',

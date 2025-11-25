@@ -1,7 +1,12 @@
 import { NextRequest } from "next/server";
 import { verifyToken as verifyJwt } from "@/lib/jwt";
+import { JwtPayload } from "jsonwebtoken";
 
-export const verifyToken = async (request: NextRequest) => {
+interface DecodedToken extends JwtPayload {
+    userId: string;
+}
+
+export const verifyToken = async (request: NextRequest): Promise<DecodedToken | null> => {
     const authHeader = request.headers.get('authorization');
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -13,5 +18,5 @@ export const verifyToken = async (request: NextRequest) => {
         return null;
     }
 
-    return verifyJwt(token);
+    return verifyJwt(token) as DecodedToken | null;
 }

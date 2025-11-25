@@ -5,7 +5,7 @@ import { verifyToken } from "@/lib/middleware/auth";
 import { isValidObjectId } from "mongoose";
 import { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
         await connectDB();
 

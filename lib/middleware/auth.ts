@@ -1,18 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { NextRequest } from "next/server";
+import { verifyToken as verifyJwt } from "@/lib/jwt";
 
 export const verifyToken = async (request: NextRequest) => {
-    const token = request.headers.get('authorization')?.split(' ')[1];
-    const JWT_SECRET = process.env.JWT_SECRET || "secret_key";
+    const authHeader = request.headers.get('authorization');
 
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return null;
+    }
+
+    const token = authHeader.split(' ')[1];
     if (!token) {
-        throw new Error('Unauthorized');
+        return null;
     }
 
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        return decoded
-    } catch (error) {
-        throw new Error('Invalid token');
-    }
+    return verifyJwt(token);
 }

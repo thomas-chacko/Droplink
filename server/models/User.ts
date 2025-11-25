@@ -52,6 +52,7 @@ const UsersSchema = new Schema<User>({
         required: true,
         unique: true,
         trim: true,
+        lowercase: true,
         minlength: 3,
         maxlength: 30
     },

@@ -1,9 +1,11 @@
+import connectDB from "@/server/db/connection";
 import { verifyToken } from "@/lib/middleware/auth";
 import UserModel from "@/server/models/User";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
     try {
+        await connectDB();
         const user = await verifyToken(request);
 
         if (!user) {

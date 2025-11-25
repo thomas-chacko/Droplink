@@ -6,27 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
     try {
         await connectDB();
-        const user = await verifyToken(request);
 
+        // 1. Authentication Check
+        const user = await verifyToken(request);
         if (!user) {
             return NextResponse.json(
-                { error: 'Unauthorized' },
+                { success: false, message: 'Unauthorized' },
                 { status: 401 }
             );
         }
 
-        const users = await UserModel.find({}, { password: 0 });
+        // 2. Fetch Data
+        const users = await UserModel.find({}, { password: 0 }).sort({ createdAt: -1 });
+
+        // 3. Success Response
         return NextResponse.json({
-            message: 'Users data fetched successfully',
-            users
-        },
-            { status: 200 }
-        )
-    } catch (error) {
+            success: true,
+            message: 'Users fetched successfully',
+            data: users
+        }, { status: 200 });
+
+    } catch (error: any) {
+        console.error('Error fetching users:', error);
         return NextResponse.json({
-            error: 'Internal Server Error'
-        },
-            { status: 500 }
-        )
+            success: false,
+            message: 'Internal Server Error',
+            error: error.message
+        }, { status: 500 });
     }
 }

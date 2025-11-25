@@ -1,33 +1,56 @@
 import connectDB from "@/server/db/connection";
 import UserModel from "@/server/models/User";
 import { NextResponse } from "next/server";
+import { verifyToken } from "@/lib/middleware/auth";
+import { isValidObjectId } from "mongoose";
+import { NextRequest } from "next/server";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     try {
         await connectDB();
-        const { id } = await params
 
-        const user = await UserModel.findById(id, { password: 0 })
+        // 1. Authentication Check
+        const authenticatedUser = await verifyToken(request);
+        if (!authenticatedUser) {
+            return NextResponse.json(
+                { success: false, message: 'Unauthorized' },
+                { status: 401 }
+            );
+        }
+
+        const { id } = await params;
+
+        // 2. Validate ID Format
+        if (!isValidObjectId(id)) {
+            return NextResponse.json({
+                success: false,
+                message: 'Invalid User ID format'
+            }, { status: 400 });
+        }
+
+        // 3. Fetch User
+        const user = await UserModel.findById(id, { password: 0 });
 
         if (!user) {
             return NextResponse.json({
-                error: 'User not found'
-            },
-                { status: 404 }
-            )
+                success: false,
+                message: 'User not found'
+            }, { status: 404 });
         }
 
+        // 4. Success Response
         return NextResponse.json({
-            message: 'User data fetched successfully',
-            user
-        },
-            { status: 200 }
-        )
-    } catch (error) {
+            success: true,
+            message: 'User fetched successfully',
+            data: user
+        }, { status: 200 });
+
+    } catch (error: any) {
+        console.error('Error fetching user:', error);
         return NextResponse.json({
-            error: 'Internal Server Error'
-        },
-            { status: 500 }
-        )
+            success: false,
+            message: 'Internal Server Error',
+            error: error.message
+        }, { status: 500 });
     }
 }

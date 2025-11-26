@@ -91,7 +91,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                             <span className="font-medium">{item.label}</span>
                                         </div>
                                         {item.isPro && (
-                                            <span className="text-[10px] bg-gradient-to-r from-amber-400 to-orange-500 text-black px-2 py-0.5 rounded-full font-bold shadow-sm">PRO</span>
+                                            <span className="text-[10px] bg-linear-to-r from-amber-400 to-orange-500 text-black px-2 py-0.5 rounded-full font-bold shadow-sm">PRO</span>
                                         )}
                                     </Link>
                                 );
@@ -122,9 +122,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </div>
 
                     <div className="p-4 border-t border-white/5">
-                        <div className="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-blue-500/10 rounded-xl p-4">
+                        <div className="bg-linear-to-br from-blue-600/10 to-purple-600/10 border border-blue-500/10 rounded-xl p-4">
                             <div className="flex items-center gap-3 mb-2">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold">
+                                <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold">
                                     {user?.username?.substring(0, 2).toUpperCase() || 'U'}
                                 </div>
                                 <div className="overflow-hidden">
@@ -172,7 +172,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-3 pl-2">
-                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-[2px] ring-2 ring-black/20">
+                                <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-purple-600 p-[2px] ring-2 ring-black/20">
                                     <div className="w-full h-full rounded-full bg-[#0B1120] flex items-center justify-center">
                                         <span className="text-xs font-bold text-white">{user?.username?.substring(0, 2).toUpperCase() || 'U'}</span>
                                     </div>
@@ -215,7 +215,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <div className="px-6 pb-6">
                             <div className="bg-[#0B1120]/50 rounded-xl p-4 mb-6 border border-white/5">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-sm font-bold">
+                                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-sm font-bold">
                                         {user?.username?.substring(0, 2).toUpperCase() || 'U'}
                                     </div>
                                     <div>

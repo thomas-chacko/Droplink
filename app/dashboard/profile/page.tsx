@@ -22,7 +22,7 @@ export default function ProfilePage() {
           <div>
             <label className="block text-sm font-medium text-white mb-2">Profile Picture</label>
             <div className="flex items-center gap-4">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full"></div>
+              <div className="w-20 h-20 bg-linear-to-br from-blue-500 to-purple-600 rounded-full"></div>
               <button className="flex items-center gap-2 px-4 py-2 bg-white text-blue-900 rounded-lg hover:bg-blue-50 transition font-semibold">
                 <Upload className="w-4 h-4" />
                 Change Photo
@@ -39,7 +39,7 @@ export default function ProfilePage() {
                 readOnly
                 className="flex-1 px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-blue-200"
               />
-              <button 
+              <button
                 onClick={copyProfileUrl}
                 className="px-4 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white transition"
                 title="Copy profile URL"
@@ -48,7 +48,7 @@ export default function ProfilePage() {
               </button>
             </div>
             <p className="text-sm text-blue-300 mt-1 flex items-center gap-1">
-              Your public profile: 
+              Your public profile:
               <Link href={`/${username}`} target="_blank" className="hover:underline inline-flex items-center gap-1">
                 droplink.com/{username}
                 <ExternalLink className="w-3 h-3" />

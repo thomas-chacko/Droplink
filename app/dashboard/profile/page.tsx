@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Camera,
   Copy,
-  ExternalLink,
   Mail,
   User,
   Save,
@@ -12,37 +11,128 @@ import {
   AtSign,
   Sparkles,
   MapPin,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Loader2
 } from 'lucide-react';
-import Link from 'next/link';
+import { useAuthStore } from '@/store/useAuthStore';
+import { userServices } from '@/services/userServices';
+import { LIVE_URL } from '@/constants/constant';
 
 export default function ProfilePage() {
+  const { user, updateUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
-    displayName: 'John Doe',
-    username: 'johndoe',
-    email: 'john@example.com',
-    bio: 'Designer & Creator | Sharing my journey',
-    location: 'San Francisco, CA',
-    website: 'portfolio.com'
+    displayName: '',
+    username: '',
+    email: '',
+    bio: '',
+    location: '',
+    website: ''
   });
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user?.id) return;
+
+      try {
+        setFetching(true);
+        setError(null);
+        const response = await userServices.getUserById(user.id);
+
+        if (response.success) {
+          const userData = response.data;
+          setFormData({
+            displayName: userData.name || '',
+            username: userData.username || '',
+            email: userData.email || '',
+            bio: userData.bio || '',
+            location: userData.location || '',
+            website: userData.socialLinks?.website || ''
+          });
+        }
+      } catch (error: any) {
+        setError(error.response?.data?.message || 'Failed to fetch profile');
+      } finally {
+        setFetching(false);
+      }
+    };
+
+    fetchUserData();
+  }, [user?.id]);
+
   const copyProfileUrl = () => {
-    navigator.clipboard.writeText(`droplink.com/${formData.username}`);
+    navigator.clipboard.writeText(`${LIVE_URL}/${formData.username}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSave = () => {
-    setLoading(true);
-    // Simulate API call
-    setTimeout(() => setLoading(false), 1500);
+  const handleSave = async () => {
+    if (!user?.id) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+      setSuccess(null);
+
+      const updateData = {
+        name: formData.displayName,
+        bio: formData.bio,
+        location: formData.location,
+        socialLinks: {
+          website: formData.website
+        }
+      };
+
+      const response = await userServices.updateUser(user.id, updateData);
+
+      if (response.success) {
+        updateUser({
+          username: response.data.username,
+          email: response.data.email,
+          isPremium: response.data.isPremium
+        });
+        setSuccess('Profile updated successfully!');
+        setTimeout(() => setSuccess(null), 3000);
+      }
+    } catch (error: any) {
+      setError(error.response?.data?.message || 'Failed to update profile');
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  if (fetching) {
+    return (
+      <div className="w-full mx-auto p-4 md:p-6 lg:p-8 flex items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-12 h-12 text-blue-500 animate-spin" />
+          <p className="text-gray-400">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-8">
+    <div className="w-full mx-auto space-y-8">
+      {/* Notifications */}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/50 rounded-xl p-4 text-red-400">
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="bg-green-500/10 border border-green-500/50 rounded-xl p-4 text-green-400 flex items-center gap-2">
+          <CheckCircle2 className="w-5 h-5" />
+          {success}
+        </div>
+      )}
+
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -109,12 +199,12 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex flex-col min-w-0">
                       <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">Public Profile</span>
-                      <span className="text-sm text-blue-200 truncate font-medium">droplink.com/{formData.username}</span>
+                      <span className="text-sm text-blue-200 truncate font-medium">{LIVE_URL}/{formData.username}</span>
                     </div>
                   </div>
                   <button
                     onClick={copyProfileUrl}
-                    className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors relative"
+                    className="p-2 hover:bg-white/10 cursor-pointer rounded-lg text-gray-400 hover:text-white transition-colors relative"
                     title="Copy Link"
                   >
                     {copied ? <CheckCircle2 className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}

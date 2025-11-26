@@ -5,9 +5,6 @@ export const API_ENDPOINTS = {
     LOGOUT: '/api/auth/logout',
   },
   USER: {
-    PROFILE: '/api/user/profile',
-    UPDATE: '/api/user/update',
-    DELETE: '/api/user/delete',
-    LIST: '/api/users',
+    BY_ID: (id: string) => `/api/users/${id}`,
   },
 } as const;

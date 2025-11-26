@@ -174,7 +174,7 @@ export default function DashboardPage() {
 
         {/* Upgrade Card for non-premium / Premium Status for premium users */}
         {!isPremium ? (
-          <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-xl border border-blue-500/20 p-6 flex flex-col">
+          <div className="bg-linear-to-br from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-xl border border-blue-500/20 p-6 flex flex-col">
             <div className="flex-1">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 rounded-full mb-4">
                 <span className="text-xs font-semibold text-blue-300">✨ PRO</span>
@@ -202,7 +202,7 @@ export default function DashboardPage() {
                 </li>
               </ul>
             </div>
-            <button className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold rounded-lg transition-all shadow-lg shadow-blue-900/30 hover:shadow-blue-900/50">
+            <button className="w-full px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold rounded-lg transition-all shadow-lg shadow-blue-900/30 hover:shadow-blue-900/50">
               Upgrade Now
             </button>
           </div>
@@ -304,7 +304,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Tips Section */}
-      <div className="bg-gradient-to-br from-blue-600/10 to-purple-600/10 backdrop-blur-sm rounded-xl border border-blue-500/20 p-6">
+      <div className="bg-linear-to-br from-blue-600/10 to-purple-600/10 backdrop-blur-sm rounded-xl border border-blue-500/20 p-6">
         <h3 className="text-lg font-semibold text-white mb-2">💡 Pro Tip</h3>
         <p className="text-slate-300 text-sm mb-4">
           Add a custom bio and profile picture to increase engagement by up to 40%. Visitors are more likely to click your links when they know who you are!

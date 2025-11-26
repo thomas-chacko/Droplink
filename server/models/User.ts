@@ -79,6 +79,10 @@ const UsersSchema = new Schema<User>({
         type: String,
         required: false
     },
+    coverImage: {
+        type: String,
+        required: false
+    },
     bio: {
         type: String,
         required: false
@@ -87,6 +91,10 @@ const UsersSchema = new Schema<User>({
         type: Boolean,
         required: false,
         default: false
+    },
+    location: {
+        type: String,
+        required: false
     },
     theme: {
         type: ThemeSchema,

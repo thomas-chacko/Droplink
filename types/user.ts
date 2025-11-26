@@ -19,8 +19,10 @@ export interface User {
     email: string
     password: string
     avatar?: string
+    coverImage?: string
     bio?: string
     isPremium: boolean
+    location?: string
     socialLinks?: { [key: string]: string }
     settings?: boolean
 }

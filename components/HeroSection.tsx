@@ -4,7 +4,7 @@ import { ArrowRight, Link2, Instagram, Facebook, Twitter, Linkedin, Youtube, Git
 export default function HeroSection() {
   return (
     <section className="container mx-auto px-6 md:px-8 lg:px-12 py-7 md:py-10 lg:py-10">
-      <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center min-h-[600px]">
+      <main className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center min-h-[600px]">
         {/* Left Side - Text Content */}
         <div className="text-white tec space-y-8 relative z-10 px-4 md:px-0">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
@@ -52,7 +52,7 @@ export default function HeroSection() {
           <div className="absolute w-64 h-64 border-2 border-blue-500/30 rounded-full animate-spin-slow">
             {/* Instagram */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
+              <div className="w-14 h-14 bg-linear-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
                 <Instagram className="w-7 h-7 text-white" />
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function HeroSection() {
           <div className="absolute w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
           <div className="absolute w-64 h-64 bg-purple-500/10 rounded-full blur-2xl"></div>
         </div>
-      </div>
+      </main>
     </section>
   );
 }

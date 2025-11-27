@@ -8,9 +8,32 @@ import Footer from '@/components/Footer';
 import AuthRedirect from '@/components/AuthRedirect';
 
 export default function LandingPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Droplink',
+    applicationCategory: 'SocialNetworkingApplication',
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    description: 'Manage and share all your social links through a single customizable profile.',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.8',
+      ratingCount: '1000',
+    },
+  }
+
   return (
     <AuthRedirect redirectTo="/dashboard" redirectIfAuthenticated={true}>
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="min-h-screen bg-linear-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
         <Header />
         <HeroSection />
         <FeaturesSection />

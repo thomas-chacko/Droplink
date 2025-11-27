@@ -5,7 +5,6 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import HowItWorksSection from '@/components/HowItWorksSection';
 import PricingSection from '@/components/PricingSection';
 import Footer from '@/components/Footer';
-import AuthRedirect from '@/components/AuthRedirect';
 
 export default function LandingPage() {
   const jsonLd = {
@@ -28,7 +27,7 @@ export default function LandingPage() {
   }
 
   return (
-    <AuthRedirect redirectTo="/dashboard" redirectIfAuthenticated={true}>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -42,6 +41,6 @@ export default function LandingPage() {
         <PricingSection />
         <Footer />
       </div>
-    </AuthRedirect>
+    </>
   );
 }

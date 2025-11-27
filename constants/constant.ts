@@ -1,1 +1,1 @@
-export const LIVE_URL: string = "https://drop-your-link.vercel.app"
+export const LIVE_URL: string = "https://droplink-web.vercel.app"

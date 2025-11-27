@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Camera,
   Copy,
@@ -12,8 +12,11 @@ import {
   Sparkles,
   MapPin,
   Link as LinkIcon,
-  Loader2
+  Loader2,
+  Upload,
+  X
 } from 'lucide-react';
+import Image from 'next/image';
 import { useAuthStore } from '@/store/useAuthStore';
 import { userServices } from '@/services/userServices';
 import { LIVE_URL } from '@/constants/constant';
@@ -25,6 +28,11 @@ export default function ProfilePage() {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
+
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     displayName: '',
@@ -32,7 +40,9 @@ export default function ProfilePage() {
     email: '',
     bio: '',
     location: '',
-    website: ''
+    website: '',
+    avatar: '',
+    coverImage: ''
   });
 
   useEffect(() => {
@@ -52,7 +62,9 @@ export default function ProfilePage() {
             email: userData.email || '',
             bio: userData.bio || '',
             location: userData.location || '',
-            website: userData.socialLinks?.website || ''
+            website: userData.socialLinks?.website || '',
+            avatar: userData.avatar || '',
+            coverImage: userData.coverImage || ''
           });
         }
       } catch (error: any) {
@@ -64,6 +76,124 @@ export default function ProfilePage() {
 
     fetchUserData();
   }, [user?.id]);
+
+  const handleImageUpload = async (file: File, type: 'avatar' | 'cover') => {
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setError('Please upload an image file');
+      setTimeout(() => setError(null), 3000);
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image size should be less than 5MB');
+      setTimeout(() => setError(null), 3000);
+      return;
+    }
+
+    try {
+      if (type === 'avatar') {
+        setUploadingAvatar(true);
+      } else {
+        setUploadingCover(true);
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        const imageUrl = data.data.secure_url;
+
+        // Update form data
+        setFormData(prev => ({
+          ...prev,
+          [type === 'avatar' ? 'avatar' : 'coverImage']: imageUrl
+        }));
+
+        // Update user profile in backend
+        if (user?.id) {
+          const updateData = type === 'avatar'
+            ? { avatar: imageUrl }
+            : { coverImage: imageUrl };
+
+          await userServices.updateUser(user.id, updateData);
+          setSuccess(`${type === 'avatar' ? 'Profile' : 'Cover'} image updated successfully!`);
+          setTimeout(() => setSuccess(null), 3000);
+        }
+      } else {
+        throw new Error(data.message || 'Upload failed');
+      }
+    } catch (error: any) {
+      setError(error.message || 'Failed to upload image');
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      if (type === 'avatar') {
+        setUploadingAvatar(false);
+      } else {
+        setUploadingCover(false);
+      }
+    }
+  };
+
+  const handleAvatarClick = () => {
+    avatarInputRef.current?.click();
+  };
+
+  const handleCoverClick = () => {
+    coverInputRef.current?.click();
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageUpload(file, 'avatar');
+    }
+  };
+
+  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageUpload(file, 'cover');
+    }
+  };
+
+  const removeAvatar = async () => {
+    if (!user?.id) return;
+
+    try {
+      setFormData(prev => ({ ...prev, avatar: '' }));
+      await userServices.updateUser(user.id, { avatar: '' });
+      setSuccess('Profile image removed successfully!');
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (error: any) {
+      setError('Failed to remove profile image');
+      setTimeout(() => setError(null), 3000);
+    }
+  };
+
+  const removeCover = async () => {
+    if (!user?.id) return;
+
+    try {
+      setFormData(prev => ({ ...prev, coverImage: '' }));
+      await userServices.updateUser(user.id, { coverImage: '' });
+      setSuccess('Cover image removed successfully!');
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (error: any) {
+      setError('Failed to remove cover image');
+      setTimeout(() => setError(null), 3000);
+    }
+  };
 
   const copyProfileUrl = () => {
     navigator.clipboard.writeText(`${LIVE_URL}/${formData.username}`);
@@ -83,6 +213,8 @@ export default function ProfilePage() {
         name: formData.displayName,
         bio: formData.bio,
         location: formData.location,
+        avatar: formData.avatar,
+        coverImage: formData.coverImage,
         socialLinks: {
           website: formData.website
         }
@@ -148,25 +280,123 @@ export default function ProfilePage() {
           <div className="sticky top-8">
             <div className="bg-gray-900/40 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
               {/* Banner */}
-              <div className="h-32 bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 relative">
-                <div className="absolute inset-0 bg-black/10" />
+              <div className="h-32 relative group cursor-pointer" onClick={handleCoverClick}>
+                {formData.coverImage ? (
+                  <>
+                    <Image
+                      src={formData.coverImage}
+                      alt="Cover"
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                      {uploadingCover ? (
+                        <Loader2 className="w-6 h-6 text-white animate-spin" />
+                      ) : (
+                        <>
+                          <Camera className="w-6 h-6 text-white" />
+                          <span className="text-white text-sm font-medium">Change Cover</span>
+                        </>
+                      )}
+                    </div>
+                    {formData.coverImage && !uploadingCover && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeCover();
+                        }}
+                        className="absolute top-3 right-3 p-2 bg-red-600 hover:bg-red-500 text-white rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <div className="h-full bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 relative">
+                    <div className="absolute inset-0 bg-black/10" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                      {uploadingCover ? (
+                        <Loader2 className="w-6 h-6 text-white animate-spin" />
+                      ) : (
+                        <>
+                          <Upload className="w-6 h-6 text-white" />
+                          <span className="text-white text-sm font-medium">Upload Cover</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
+                <input
+                  ref={coverInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleCoverChange}
+                  className="hidden"
+                />
               </div>
 
               {/* Profile Info */}
               <div className="px-6 pb-8 relative">
                 {/* Avatar */}
                 <div className="relative -mt-16 mb-4 inline-block">
-                  <div className="w-32 h-32 rounded-full border-4 border-gray-900 bg-gray-800 relative overflow-hidden group cursor-pointer shadow-xl">
-                    <div className="absolute inset-0 bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-3xl font-bold text-white">
-                      {formData.displayName.charAt(0)}
-                    </div>
-                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Camera className="w-8 h-8 text-white" />
-                    </div>
+                  <div
+                    className="w-32 h-32 rounded-full border-4 border-gray-900 bg-gray-800 relative overflow-hidden group cursor-pointer shadow-xl"
+                    onClick={handleAvatarClick}
+                  >
+                    {formData.avatar ? (
+                      <>
+                        <Image
+                          src={formData.avatar}
+                          alt="Profile"
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          {uploadingAvatar ? (
+                            <Loader2 className="w-8 h-8 text-white animate-spin" />
+                          ) : (
+                            <Camera className="w-8 h-8 text-white" />
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-3xl font-bold text-white">
+                          {formData.displayName.charAt(0) || 'U'}
+                        </div>
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          {uploadingAvatar ? (
+                            <Loader2 className="w-8 h-8 text-white animate-spin" />
+                          ) : (
+                            <Camera className="w-8 h-8 text-white" />
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
-                  <button className="absolute bottom-1 right-1 p-2 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-lg border-2 border-gray-900 transition-colors">
-                    <Camera className="w-4 h-4" />
+                  <button
+                    onClick={formData.avatar ? (e) => {
+                      e.stopPropagation();
+                      removeAvatar();
+                    } : handleAvatarClick}
+                    className={`absolute bottom-1 right-1 p-2 ${formData.avatar
+                        ? 'bg-red-600 hover:bg-red-500'
+                        : 'bg-blue-600 hover:bg-blue-500'
+                      } text-white rounded-full shadow-lg border-2 border-gray-900 transition-colors`}
+                  >
+                    {formData.avatar ? (
+                      <X className="w-4 h-4" />
+                    ) : (
+                      <Camera className="w-4 h-4" />
+                    )}
                   </button>
+                  <input
+                    ref={avatarInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleAvatarChange}
+                    className="hidden"
+                  />
                 </div>
 
                 <div className="space-y-1">

@@ -149,12 +149,6 @@ export default function PublicProfilePage() {
           {userData.name && (
             <p className={`text-lg ${subtextClass} mb-2`}>@{userData.username}</p>
           )}
-          {userData.bio && (
-            <p className={`${subtextClass} max-w-md mx-auto`}>{userData.bio}</p>
-          )}
-          {userData.location && (
-            <p className={`text-sm ${subtextClass} mt-2`}>📍 {userData.location}</p>
-          )}
         </div>
 
         {/* Links */}

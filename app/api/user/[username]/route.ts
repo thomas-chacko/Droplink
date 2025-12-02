@@ -28,7 +28,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
             .lean()
 
         return NextResponse.json({
-            sucess: true,
+            success: true,
             message: "Profile fetched successfully",
             data: {
                 user: {
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
         })
     } catch (error: any) {
         return NextResponse.json({
-            sucess: false,
+            success: false,
             message: "Something went wrong",
             error: error.message
         }, {

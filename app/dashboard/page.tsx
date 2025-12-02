@@ -4,6 +4,7 @@ import { Eye, Copy, ArrowUpRight, TrendingUp, MousePointerClick, Link2, Users, S
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
+import { LIVE_URL } from '@/constants/constant';
 
 export default function DashboardPage() {
   const [copied, setCopied] = useState(false);
@@ -12,7 +13,7 @@ export default function DashboardPage() {
   const isPremium = user?.isPremium || false;
 
   const copyProfileUrl = () => {
-    navigator.clipboard.writeText(`droplink.com/${username}`);
+    navigator.clipboard.writeText(`${LIVE_URL}/${username}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -37,7 +38,7 @@ export default function DashboardPage() {
 
           <button
             onClick={copyProfileUrl}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-medium transition-all shadow-lg shadow-blue-900/20"
+            className="flex items-center gap-2 px-4 py-2 cursor-pointer bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-medium transition-all shadow-lg shadow-blue-900/20"
           >
             <Copy className="w-4 h-4" />
             <span>{copied ? 'Copied!' : 'Copy URL'}</span>

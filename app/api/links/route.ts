@@ -16,8 +16,7 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const links = await LinkModel.find({ userId: authenticatedUser.userId })
-        console.log("links", links);
+        const links = await LinkModel.find({ userId: authenticatedUser.userId }).sort({ order: 1 });
 
         return NextResponse.json({
             success: true,
@@ -55,13 +54,22 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Auto-calculate order if not provided
+        let linkOrder = order;
+        if (linkOrder === undefined) {
+            const lastLink = await LinkModel.findOne({ userId: authenticatedUser.userId })
+                .sort({ order: -1 })
+                .select('order');
+            linkOrder = lastLink ? lastLink.order + 1 : 0;
+        }
+
         const link = await LinkModel.create({
             userId: authenticatedUser.userId,
             title,
             url,
             description,
             icon,
-            order,
+            order: linkOrder,
             isActive
         })
 

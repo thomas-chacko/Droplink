@@ -35,8 +35,7 @@ const LinksSchema = new Schema<Link>(
         order: {
             type: Number,
             default: 0,
-            index: true,
-            unique: true
+            index: true
         },
         isActive: {
             type: Boolean,

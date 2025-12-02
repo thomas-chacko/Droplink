@@ -1,25 +1,27 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Trash2, Edit2, Link as LinkIcon, GripVertical } from 'lucide-react';
+import { Plus, Trash2, Edit2, Link as LinkIcon, GripVertical, Globe, ExternalLink, Search } from 'lucide-react';
 
 type LinkItem = {
   id: string;
   title: string;
   url: string;
+  isEnabled: boolean;
 };
 
 export default function LinksPage() {
   const [links, setLinks] = useState<LinkItem[]>([
-    { id: '1', title: 'Portfolio', url: 'https://example.com' },
-    { id: '2', title: 'Instagram', url: 'https://instagram.com/johndoe' },
-    { id: '3', title: 'YouTube', url: 'https://youtube.com/@johndoe' },
+    { id: '1', title: 'Portfolio', url: 'https://example.com', isEnabled: true },
+    { id: '2', title: 'Instagram', url: 'https://instagram.com/johndoe', isEnabled: true },
+    { id: '3', title: 'YouTube', url: 'https://youtube.com/@johndoe', isEnabled: false },
   ]);
   const [newLink, setNewLink] = useState({ title: '', url: '' });
+  const [searchQuery, setSearchQuery] = useState('');
 
   const addLink = () => {
     if (newLink.title && newLink.url) {
-      setLinks([...links, { id: Date.now().toString(), ...newLink }]);
+      setLinks([{ id: Date.now().toString(), ...newLink, isEnabled: true }, ...links]);
       setNewLink({ title: '', url: '' });
     }
   };
@@ -28,77 +30,164 @@ export default function LinksPage() {
     setLinks(links.filter(link => link.id !== id));
   };
 
+  const toggleLink = (id: string) => {
+    setLinks(links.map(link =>
+      link.id === id ? { ...link, isEnabled: !link.isEnabled } : link
+    ));
+  };
+
+  const filteredLinks = links.filter(link =>
+    link.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    link.url.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="max-w-4xl">
-      <div className="space-y-6">
-        {/* Add New Link */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg p-6 md:p-8 border border-white/20">
-          <h2 className="text-xl font-bold text-white mb-6">Add New Link</h2>
-          
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold text-white">Manage Links</h2>
+          <p className="text-slate-400">Add and organize the links displayed on your profile.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input
               type="text"
-              placeholder="Link Title (e.g., Instagram)"
-              value={newLink.title}
-              onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
-              className="px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none text-white placeholder-blue-300"
-            />
-            <input
-              type="url"
-              placeholder="URL (e.g., https://...)"
-              value={newLink.url}
-              onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
-              className="px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none text-white placeholder-blue-300"
+              placeholder="Search links..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 pr-4 py-2 bg-[#1E293B]/50 border border-white/5 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 w-full md:w-64 transition-all"
             />
           </div>
-          
-          <button
-            onClick={addLink}
-            className="flex items-center gap-2 px-6 py-3 bg-white text-blue-900 rounded-xl hover:bg-blue-50 transition font-bold"
-          >
-            <Plus className="w-5 h-5" />
-            Add Link
-          </button>
+        </div>
+      </div>
+
+      {/* Add New Link Card */}
+      <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl border border-white/5 p-6 shadow-xl">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 rounded-lg bg-blue-500/10">
+            <Plus className="w-5 h-5 text-blue-400" />
+          </div>
+          <h3 className="text-lg font-semibold text-white">Add New Link</h3>
         </div>
 
-        {/* Links List */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg p-6 md:p-8 border border-white/20">
-          <h2 className="text-xl font-bold text-white mb-6">Your Links ({links.length})</h2>
-          
-          {links.length === 0 ? (
-            <div className="text-center py-12">
-              <LinkIcon className="w-12 h-12 text-blue-300 mx-auto mb-3 opacity-50" />
-              <p className="text-blue-200 mb-2">No links yet</p>
-              <p className="text-sm text-blue-300">Add your first link above to get started</p>
+        <div className="grid md:grid-cols-2 gap-4 mb-4">
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-slate-400 ml-1">Link Title</label>
+            <div className="relative group">
+              <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+              <input
+                type="text"
+                placeholder="e.g. My Portfolio"
+                value={newLink.title}
+                onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
+                className="w-full pl-10 pr-4 py-3 bg-[#0B1120]/50 border border-white/5 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-transparent outline-none text-white placeholder-slate-600 transition-all"
+              />
             </div>
-          ) : (
-            <div className="space-y-3">
-              {links.map((link) => (
-                <div key={link.id} className="flex items-center gap-3 p-4 bg-white/5 border border-white/20 rounded-xl hover:border-blue-400 transition group">
-                  <button className="cursor-grab active:cursor-grabbing text-blue-300 hover:text-white transition">
-                    <GripVertical className="w-5 h-5" />
-                  </button>
-                  <LinkIcon className="w-5 h-5 text-blue-300 shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-white truncate">{link.title}</p>
-                    <p className="text-sm text-blue-200 truncate">{link.url}</p>
-                  </div>
-                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button className="p-2 text-blue-300 hover:bg-white/10 rounded-lg transition">
-                      <Edit2 className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={() => deleteLink(link.id)}
-                      className="p-2 text-red-400 hover:bg-white/10 rounded-lg transition"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              ))}
+          </div>
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-slate-400 ml-1">Destination URL</label>
+            <div className="relative group">
+              <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+              <input
+                type="url"
+                placeholder="https://..."
+                value={newLink.url}
+                onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
+                className="w-full pl-10 pr-4 py-3 bg-[#0B1120]/50 border border-white/5 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-transparent outline-none text-white placeholder-slate-600 transition-all"
+              />
             </div>
-          )}
+          </div>
         </div>
+
+        <div className="flex justify-end">
+          <button
+            onClick={addLink}
+            disabled={!newLink.title || !newLink.url}
+            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-all shadow-lg shadow-blue-900/20 font-medium"
+          >
+            <Plus className="w-4 h-4" />
+            Add to Profile
+          </button>
+        </div>
+      </div>
+
+      {/* Links List */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between px-1">
+          <h3 className="text-lg font-semibold text-white">Your Links <span className="text-slate-500 text-sm font-normal ml-2">({links.length})</span></h3>
+        </div>
+
+        {links.length === 0 ? (
+          <div className="bg-[#1E293B]/30 border border-white/5 rounded-xl p-12 text-center">
+            <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <LinkIcon className="w-8 h-8 text-blue-400 opacity-50" />
+            </div>
+            <h3 className="text-white font-medium mb-2">No links yet</h3>
+            <p className="text-slate-400 text-sm max-w-xs mx-auto">
+              Add your first link above to start building your profile.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {filteredLinks.map((link) => (
+              <div
+                key={link.id}
+                className={`group flex items-center gap-4 p-4 bg-[#1E293B]/50 hover:bg-[#1E293B]/80 border border-white/5 rounded-xl transition-all ${!link.isEnabled ? 'opacity-60' : ''}`}
+              >
+                <button className="cursor-grab active:cursor-grabbing text-slate-600 hover:text-slate-400 transition p-1">
+                  <GripVertical className="w-5 h-5" />
+                </button>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h4 className="font-medium text-white truncate">{link.title}</h4>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-500 hover:text-blue-400 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                  <p className="text-sm text-slate-500 truncate">{link.url}</p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 mr-2">
+                    <span className={`text-xs font-medium ${link.isEnabled ? 'text-emerald-400' : 'text-slate-500'}`}>
+                      {link.isEnabled ? 'Active' : 'Hidden'}
+                    </span>
+                    <button
+                      onClick={() => toggleLink(link.id)}
+                      className={`w-10 h-5 rounded-full transition-colors relative ${link.isEnabled ? 'bg-emerald-500/20' : 'bg-slate-700'
+                        }`}
+                    >
+                      <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${link.isEnabled
+                        ? 'left-6 bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]'
+                        : 'left-1 bg-slate-400'
+                        }`} />
+                    </button>
+                  </div>
+
+                  <div className="h-8 w-px bg-white/5 mx-2" />
+
+                  <button className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all">
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => deleteLink(link.id)}
+                    className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

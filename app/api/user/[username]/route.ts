@@ -3,7 +3,7 @@ import LinkModel from "@/server/models/Link";
 import UserModel from "@/server/models/User";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: { username: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ username: string }> }) {
     try {
         await connectDB()
 

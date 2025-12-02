@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit2, Link as LinkIcon, GripVertical, Globe, ExternalLink, Search } from 'lucide-react';
 import { useLinkStore } from '@/store/useLinkStore';
+import DeleteConfirmationModal from '@/components/ui/DeleteConfirmationModal';
 
 type LinkItem = {
   _id: string;
@@ -17,35 +18,73 @@ type LinkItem = {
 export default function LinksPage() {
   const [newLink, setNewLink] = useState({ title: '', url: '' });
   const [searchQuery, setSearchQuery] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; linkId: string | null }>({
+    isOpen: false,
+    linkId: null
+  });
 
-  const { isLoading, error, fetchLinks, links, addLink } = useLinkStore()
+  const { isLoading, error, fetchLinks, links, addLink, updateLink, deleteLink } = useLinkStore()
   console.log(links);
 
   useEffect(() => {
     fetchLinks()
   }, []);
 
-  const handleAddLink = () => {
+  const handleSubmit = async () => {
     if (newLink.title && newLink.url) {
-      addLink({
-        title: newLink.title,
-        url: newLink.url,
-        isActive: true
-      });
+      if (editingId) {
+        const linkToUpdate = links.find(l => l._id === editingId);
+        if (linkToUpdate) {
+          await updateLink({
+            ...linkToUpdate,
+            title: newLink.title,
+            url: newLink.url
+          });
+        }
+        setEditingId(null);
+      } else {
+        await addLink({
+          title: newLink.title,
+          url: newLink.url,
+          isActive: true
+        });
+      }
       setNewLink({ title: '', url: '' });
     }
   };
 
-  const deleteLink = (id: string) => {
-    useLinkStore.setState({ links: links.filter(link => link._id !== id) });
+  const handleEdit = (link: LinkItem) => {
+    setEditingId(link._id);
+    setNewLink({ title: link.title, url: link.url });
+    // Scroll to top to see the form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setNewLink({ title: '', url: '' });
+  };
+
+  const handleDeleteClick = (id: string) => {
+    setDeleteModal({ isOpen: true, linkId: id });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteModal.linkId) {
+      await deleteLink(deleteModal.linkId);
+      if (editingId === deleteModal.linkId) {
+        handleCancelEdit();
+      }
+      setDeleteModal({ isOpen: false, linkId: null });
+    }
   };
 
   const toggleLink = (id: string) => {
-    useLinkStore.setState({
-      links: links.map(link =>
-        link._id === id ? { ...link, isActive: !link.isActive } : link
-      )
-    });
+    const link = links.find(l => l._id === id);
+    if (link) {
+      updateLink({ ...link, isActive: !link.isActive });
+    }
   };
 
   const filteredLinks = links.filter(link =>
@@ -75,13 +114,23 @@ export default function LinksPage() {
         </div>
       </div>
 
-      {/* Add New Link Card */}
+      {/* Add/Edit Link Card */}
       <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl border border-white/5 p-6 shadow-xl">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 rounded-lg bg-blue-500/10">
-            <Plus className="w-5 h-5 text-blue-400" />
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className={`p-2 rounded-lg ${editingId ? 'bg-amber-500/10' : 'bg-blue-500/10'}`}>
+              {editingId ? <Edit2 className="w-5 h-5 text-amber-400" /> : <Plus className="w-5 h-5 text-blue-400" />}
+            </div>
+            <h3 className="text-lg font-semibold text-white">{editingId ? 'Edit Link' : 'Add New Link'}</h3>
           </div>
-          <h3 className="text-lg font-semibold text-white">Add New Link</h3>
+          {editingId && (
+            <button
+              onClick={handleCancelEdit}
+              className="text-sm text-slate-400 hover:text-white transition-colors"
+            >
+              Cancel Edit
+            </button>
+          )}
         </div>
 
         <div className="grid md:grid-cols-2 gap-4 mb-4">
@@ -115,12 +164,15 @@ export default function LinksPage() {
 
         <div className="flex justify-end">
           <button
-            onClick={handleAddLink}
-            disabled={!newLink.title || !newLink.url}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-all shadow-lg shadow-blue-900/20 font-medium"
+            onClick={handleSubmit}
+            disabled={!newLink.title || !newLink.url || isLoading}
+            className={`flex items-center gap-2 cursor-pointer px-6 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-all shadow-lg font-medium ${editingId
+              ? 'bg-amber-600 hover:bg-amber-500 shadow-amber-900/20'
+              : 'bg-blue-600 hover:bg-blue-500 shadow-blue-900/20'
+              }`}
           >
-            <Plus className="w-4 h-4" />
-            Add to Profile
+            {editingId ? <Edit2 className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+            {editingId ? 'Update Link' : 'Add to Profile'}
           </button>
         </div>
       </div>
@@ -131,7 +183,7 @@ export default function LinksPage() {
           <h3 className="text-lg font-semibold text-white">Your Links <span className="text-slate-500 text-sm font-normal ml-2">({links.length})</span></h3>
         </div>
 
-        {isLoading ? (
+        {isLoading && !links.length ? (
           <div className="text-center py-12">
             <p className="text-slate-400">Loading links...</p>
           </div>
@@ -150,7 +202,7 @@ export default function LinksPage() {
             {filteredLinks.length > 0 ? filteredLinks.map((link) => (
               <div
                 key={link._id}
-                className={`group flex items-center gap-2 md:gap-4 p-3 md:p-4 bg-[#1E293B]/50 hover:bg-[#1E293B]/80 border border-white/5 rounded-xl transition-all ${!link.isActive ? 'opacity-60' : ''}`}
+                className={`group flex items-center gap-2 md:gap-4 p-3 md:p-4 bg-[#1E293B]/50 hover:bg-[#1E293B]/80 border border-white/5 rounded-xl transition-all ${!link.isActive ? 'opacity-60' : ''} ${editingId === link._id ? 'ring-2 ring-amber-500/50' : ''}`}
               >
                 <button className="cursor-grab active:cursor-grabbing text-slate-600 hover:text-slate-400 transition p-1">
                   <GripVertical className="w-5 h-5" />
@@ -178,7 +230,7 @@ export default function LinksPage() {
                     </span>
                     <button
                       onClick={() => toggleLink(link._id)}
-                      className={`w-10 h-5 rounded-full transition-colors relative ${link.isActive ? 'bg-emerald-500/20' : 'bg-slate-700'
+                      className={`w-10 h-5 cursor-pointer rounded-full transition-colors relative ${link.isActive ? 'bg-emerald-500/20' : 'bg-slate-700'
                         }`}
                     >
                       <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${link.isActive
@@ -190,12 +242,15 @@ export default function LinksPage() {
 
                   <div className="h-8 w-px bg-white/5 mx-1 md:mx-2" />
 
-                  <button className="p-1.5 md:p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all">
+                  <button
+                    onClick={() => handleEdit(link)}
+                    className="p-1.5 md:p-2 cursor-pointer text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all"
+                  >
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button
-                    onClick={() => deleteLink(link._id)}
-                    className="p-1.5 md:p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                    onClick={() => handleDeleteClick(link._id)}
+                    className="p-1.5 md:p-2 cursor-pointer text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -207,6 +262,15 @@ export default function LinksPage() {
           </div>
         )}
       </div>
+
+      <DeleteConfirmationModal
+        isOpen={deleteModal.isOpen}
+        onClose={() => setDeleteModal({ isOpen: false, linkId: null })}
+        onConfirm={handleConfirmDelete}
+        title="Delete Link"
+        message="Are you sure you want to delete this link? This action cannot be undone."
+        isLoading={isLoading}
+      />
     </div>
   );
 }

@@ -14,7 +14,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
 
         if (!user) {
             return NextResponse.json({
-                sucess: false,
+                success: false,
                 message: "User not found"
             }, {
                 status: 404

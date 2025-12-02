@@ -7,4 +7,11 @@ export const API_ENDPOINTS = {
   USER: {
     BY_ID: (id: string) => `/api/users/${id}`,
   },
+  LINKS: {
+    ALL: '/api/links',
+    BY_ID: (id: string) => `/api/links/${id}`,
+    CREATE: '/api/links',
+    UPDATE: (id: string) => `/api/links/${id}`,
+    DELETE: (id: string) => `/api/links/${id}`,
+  }
 } as const;

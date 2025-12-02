@@ -1,39 +1,51 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit2, Link as LinkIcon, GripVertical, Globe, ExternalLink, Search } from 'lucide-react';
+import { useLinkStore } from '@/store/useLinkStore';
 
 type LinkItem = {
-  id: string;
+  _id: string;
   title: string;
   url: string;
-  isEnabled: boolean;
+  isActive: boolean;
+  order?: number;
+  description?: string;
+  icon?: string;
 };
 
 export default function LinksPage() {
-  const [links, setLinks] = useState<LinkItem[]>([
-    { id: '1', title: 'Portfolio', url: 'https://example.com', isEnabled: true },
-    { id: '2', title: 'Instagram', url: 'https://instagram.com/johndoe', isEnabled: true },
-    { id: '3', title: 'YouTube', url: 'https://youtube.com/@johndoe', isEnabled: false },
-  ]);
   const [newLink, setNewLink] = useState({ title: '', url: '' });
   const [searchQuery, setSearchQuery] = useState('');
 
-  const addLink = () => {
+  const { isLoading, error, fetchLinks, links, addLink } = useLinkStore()
+  console.log(links);
+
+  useEffect(() => {
+    fetchLinks()
+  }, []);
+
+  const handleAddLink = () => {
     if (newLink.title && newLink.url) {
-      setLinks([{ id: Date.now().toString(), ...newLink, isEnabled: true }, ...links]);
+      addLink({
+        title: newLink.title,
+        url: newLink.url,
+        isActive: true
+      });
       setNewLink({ title: '', url: '' });
     }
   };
 
   const deleteLink = (id: string) => {
-    setLinks(links.filter(link => link.id !== id));
+    useLinkStore.setState({ links: links.filter(link => link._id !== id) });
   };
 
   const toggleLink = (id: string) => {
-    setLinks(links.map(link =>
-      link.id === id ? { ...link, isEnabled: !link.isEnabled } : link
-    ));
+    useLinkStore.setState({
+      links: links.map(link =>
+        link._id === id ? { ...link, isActive: !link.isActive } : link
+      )
+    });
   };
 
   const filteredLinks = links.filter(link =>
@@ -103,7 +115,7 @@ export default function LinksPage() {
 
         <div className="flex justify-end">
           <button
-            onClick={addLink}
+            onClick={handleAddLink}
             disabled={!newLink.title || !newLink.url}
             className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-all shadow-lg shadow-blue-900/20 font-medium"
           >
@@ -119,7 +131,11 @@ export default function LinksPage() {
           <h3 className="text-lg font-semibold text-white">Your Links <span className="text-slate-500 text-sm font-normal ml-2">({links.length})</span></h3>
         </div>
 
-        {links.length === 0 ? (
+        {isLoading ? (
+          <div className="text-center py-12">
+            <p className="text-slate-400">Loading links...</p>
+          </div>
+        ) : links.length === 0 ? (
           <div className="bg-[#1E293B]/30 border border-white/5 rounded-xl p-12 text-center">
             <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <LinkIcon className="w-8 h-8 text-blue-400 opacity-50" />
@@ -131,10 +147,10 @@ export default function LinksPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {filteredLinks.map((link) => (
+            {filteredLinks.length > 0 ? filteredLinks.map((link) => (
               <div
-                key={link.id}
-                className={`group flex items-center gap-4 p-4 bg-[#1E293B]/50 hover:bg-[#1E293B]/80 border border-white/5 rounded-xl transition-all ${!link.isEnabled ? 'opacity-60' : ''}`}
+                key={link._id}
+                className={`group flex items-center gap-4 p-4 bg-[#1E293B]/50 hover:bg-[#1E293B]/80 border border-white/5 rounded-xl transition-all ${!link.isActive ? 'opacity-60' : ''}`}
               >
                 <button className="cursor-grab active:cursor-grabbing text-slate-600 hover:text-slate-400 transition p-1">
                   <GripVertical className="w-5 h-5" />
@@ -157,15 +173,15 @@ export default function LinksPage() {
 
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-2 mr-2">
-                    <span className={`text-xs font-medium ${link.isEnabled ? 'text-emerald-400' : 'text-slate-500'}`}>
-                      {link.isEnabled ? 'Active' : 'Hidden'}
+                    <span className={`text-xs font-medium ${link.isActive ? 'text-emerald-400' : 'text-slate-500'}`}>
+                      {link.isActive ? 'Active' : 'Hidden'}
                     </span>
                     <button
-                      onClick={() => toggleLink(link.id)}
-                      className={`w-10 h-5 rounded-full transition-colors relative ${link.isEnabled ? 'bg-emerald-500/20' : 'bg-slate-700'
+                      onClick={() => toggleLink(link._id)}
+                      className={`w-10 h-5 rounded-full transition-colors relative ${link.isActive ? 'bg-emerald-500/20' : 'bg-slate-700'
                         }`}
                     >
-                      <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${link.isEnabled
+                      <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${link.isActive
                         ? 'left-6 bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]'
                         : 'left-1 bg-slate-400'
                         }`} />
@@ -178,14 +194,16 @@ export default function LinksPage() {
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button
-                    onClick={() => deleteLink(link.id)}
+                    onClick={() => deleteLink(link._id)}
                     className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
-            ))}
+            )) : (
+              <p className="text-slate-500 text-sm text-center">No links found.</p>
+            )}
           </div>
         )}
       </div>

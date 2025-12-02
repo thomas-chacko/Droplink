@@ -150,7 +150,7 @@ export default function LinksPage() {
             {filteredLinks.length > 0 ? filteredLinks.map((link) => (
               <div
                 key={link._id}
-                className={`group flex items-center gap-4 p-4 bg-[#1E293B]/50 hover:bg-[#1E293B]/80 border border-white/5 rounded-xl transition-all ${!link.isActive ? 'opacity-60' : ''}`}
+                className={`group flex items-center gap-2 md:gap-4 p-3 md:p-4 bg-[#1E293B]/50 hover:bg-[#1E293B]/80 border border-white/5 rounded-xl transition-all ${!link.isActive ? 'opacity-60' : ''}`}
               >
                 <button className="cursor-grab active:cursor-grabbing text-slate-600 hover:text-slate-400 transition p-1">
                   <GripVertical className="w-5 h-5" />
@@ -171,9 +171,9 @@ export default function LinksPage() {
                   <p className="text-sm text-slate-500 truncate">{link.url}</p>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-2 mr-2">
-                    <span className={`text-xs font-medium ${link.isActive ? 'text-emerald-400' : 'text-slate-500'}`}>
+                <div className="flex items-center gap-1 md:gap-2">
+                  <div className="flex items-center gap-2 mr-0 md:mr-2">
+                    <span className={`hidden md:block text-xs font-medium ${link.isActive ? 'text-emerald-400' : 'text-slate-500'}`}>
                       {link.isActive ? 'Active' : 'Hidden'}
                     </span>
                     <button
@@ -188,14 +188,14 @@ export default function LinksPage() {
                     </button>
                   </div>
 
-                  <div className="h-8 w-px bg-white/5 mx-2" />
+                  <div className="h-8 w-px bg-white/5 mx-1 md:mx-2" />
 
-                  <button className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all">
+                  <button className="p-1.5 md:p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all">
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => deleteLink(link._id)}
-                    className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                    className="p-1.5 md:p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

@@ -17,9 +17,8 @@ interface LinkState {
     error: string | null;
     fetchLinks: () => Promise<void>;
     addLink: (link: Omit<Link, "_id">) => Promise<void>;
-    // updateLink: (link: Link) => Promise<void>;
-    // deleteLink: (linkId: string) => Promise<void>;
-    // toggleLink: (linkId: string) => Promise<void>;
+    updateLink: (link: Link) => Promise<void>;
+    deleteLink: (linkId: string) => Promise<void>;
 }
 
 export const useLinkStore = create<LinkState>((set) => ({
@@ -64,6 +63,52 @@ export const useLinkStore = create<LinkState>((set) => ({
         } catch (error) {
             set({
                 error: "Failed to add link"
+            })
+        } finally {
+            set({
+                isLoading: false
+            })
+        }
+    },
+    updateLink: async (link: Link) => {
+        const { links } = useLinkStore.getState();
+        try {
+            set({
+                isLoading: true,
+                error: null
+            })
+            const response = await linkServices.updateLink(link);
+            if (response.success) {
+                set({
+                    links: links.map((l) => (l._id === link._id ? link : l))
+                })
+            }
+        } catch (error) {
+            set({
+                error: "Failed to update link"
+            })
+        } finally {
+            set({
+                isLoading: false
+            })
+        }
+    },
+    deleteLink: async (linkId: string) => {
+        const { links } = useLinkStore.getState();
+        try {
+            set({
+                isLoading: true,
+                error: null
+            })
+            const response = await linkServices.deleteLink(linkId);
+            if (response.success) {
+                set({
+                    links: links.filter((l) => l._id !== linkId)
+                })
+            }
+        } catch (error) {
+            set({
+                error: "Failed to delete link"
             })
         } finally {
             set({

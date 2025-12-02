@@ -29,5 +29,23 @@ export const linkServices = {
                 data: Link;
             }>(API_ENDPOINTS.LINKS.CREATE, link);
         return response.data;
+    },
+    updateLink: async (link: Link) => {
+        const response = await axiosInstance.put<
+            {
+                success: boolean;
+                message: string;
+                data: Link;
+            }>(API_ENDPOINTS.LINKS.UPDATE(link._id), link);
+        return response.data;
+    },
+    deleteLink: async (linkId: string) => {
+        const response = await axiosInstance.delete<
+            {
+                success: boolean;
+                message: string;
+                data: Link;
+            }>(API_ENDPOINTS.LINKS.DELETE(linkId));
+        return response.data;
     }
 }

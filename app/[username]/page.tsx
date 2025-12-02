@@ -90,7 +90,7 @@ export default function PublicProfilePage() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-linear-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-white text-lg">Loading profile...</p>
@@ -102,7 +102,7 @@ export default function PublicProfilePage() {
   // Error state
   if (error || !userData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-linear-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
         <div className="text-center">
           <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-4xl">❌</span>
@@ -138,7 +138,7 @@ export default function PublicProfilePage() {
               />
             </div>
           ) : (
-            <div className="w-24 h-24 mx-auto bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-4 shadow-2xl flex items-center justify-center">
+            <div className="w-24 h-24 mx-auto bg-linear-to-br from-blue-500 to-purple-600 rounded-full mb-4 shadow-2xl flex items-center justify-center">
               <span className="text-4xl font-bold text-white">{userData.name?.[0]?.toUpperCase() || userData.username[0].toUpperCase()}</span>
             </div>
           )}

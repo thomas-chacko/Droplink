@@ -265,15 +265,6 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Profile Settings</h1>
-          <p className="text-blue-200/60 mt-1">Manage your public profile and account details</p>
-        </div>
-
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column: Profile Preview Card */}
         <div className="lg:col-span-1 space-y-6">
@@ -380,8 +371,8 @@ export default function ProfilePage() {
                       removeAvatar();
                     } : handleAvatarClick}
                     className={`absolute bottom-1 right-1 p-2 ${formData.avatar
-                        ? 'bg-red-600 hover:bg-red-500'
-                        : 'bg-blue-600 hover:bg-blue-500'
+                      ? 'bg-red-600 hover:bg-red-500'
+                      : 'bg-blue-600 hover:bg-blue-500'
                       } text-white rounded-full shadow-lg border-2 border-gray-900 transition-colors`}
                   >
                     {formData.avatar ? (

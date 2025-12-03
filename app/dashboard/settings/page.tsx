@@ -1,6 +1,6 @@
 'use client';
 
-import { User, Lock, Bell, Shield, Trash2, Mail, Globe, Eye, EyeOff } from 'lucide-react';
+import { User, Lock, Bell, Trash2, Mail, Globe, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 
@@ -13,12 +13,14 @@ export default function SettingsPage() {
   });
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h2 className="text-2xl font-bold text-white">Settings</h2>
-        <p className="text-slate-400">Manage your account settings and preferences</p>
-      </div>
+      {/* <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold text-white">Settings</h2>
+          <p className="text-slate-400">Manage your account settings and preferences</p>
+        </div>
+      </div> */}
 
       {/* Account Information */}
       <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl border border-white/5 overflow-hidden">
@@ -31,28 +33,30 @@ export default function SettingsPage() {
           </div>
         </div>
         <div className="p-6 space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">Username</label>
-            <input
-              type="text"
-              defaultValue={user?.username || ''}
-              className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            />
-            <p className="text-xs text-slate-500 mt-1">Your profile will be available at droplink.com/{user?.username || 'username'}</p>
-          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Username</label>
+              <input
+                type="text"
+                defaultValue={user?.username || ''}
+                className="w-full px-4 py-2.5 bg-[#0B1120]/50 border border-white/5 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              />
+              <p className="text-xs text-slate-500 mt-1">Your profile will be available at droplink.com/{user?.username || 'username'}</p>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
-            <input
-              type="email"
-              defaultValue={user?.email || ''}
-              className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            />
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
+              <input
+                type="email"
+                defaultValue={user?.email || ''}
+                className="w-full px-4 py-2.5 bg-[#0B1120]/50 border border-white/5 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              />
+            </div>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Account Type</label>
-            <div className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white flex items-center justify-between">
+            <div className="w-full px-4 py-2.5 bg-[#0B1120]/50 border border-white/5 rounded-lg text-white flex items-center justify-between">
               <span>{user?.isPremium ? 'Premium Account' : 'Free Account'}</span>
               {!user?.isPremium && (
                 <span className="text-xs bg-blue-600 px-3 py-1 rounded-full">Upgrade Available</span>
@@ -60,9 +64,11 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <button className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-all shadow-lg shadow-blue-900/20">
-            Save Changes
-          </button>
+          <div className="pt-2">
+            <button className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-all shadow-lg shadow-blue-900/20">
+              Save Changes
+            </button>
+          </div>
         </div>
       </div>
 
@@ -83,7 +89,7 @@ export default function SettingsPage() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Enter current password"
-                className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all pr-12"
+                className="w-full px-4 py-2.5 bg-[#0B1120]/50 border border-white/5 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all pr-12"
               />
               <button
                 onClick={() => setShowPassword(!showPassword)}
@@ -94,27 +100,31 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">New Password</label>
-            <input
-              type="password"
-              placeholder="Enter new password"
-              className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            />
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">New Password</label>
+              <input
+                type="password"
+                placeholder="Enter new password"
+                className="w-full px-4 py-2.5 bg-[#0B1120]/50 border border-white/5 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Confirm New Password</label>
+              <input
+                type="password"
+                placeholder="Confirm new password"
+                className="w-full px-4 py-2.5 bg-[#0B1120]/50 border border-white/5 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">Confirm New Password</label>
-            <input
-              type="password"
-              placeholder="Confirm new password"
-              className="w-full px-4 py-2.5 bg-[#0B1120] border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            />
+          <div className="pt-2">
+            <button className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded-lg transition-all shadow-lg shadow-purple-900/20">
+              Update Password
+            </button>
           </div>
-
-          <button className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded-lg transition-all shadow-lg shadow-purple-900/20">
-            Update Password
-          </button>
         </div>
       </div>
 
@@ -168,8 +178,6 @@ export default function SettingsPage() {
               ></div>
             </button>
           </div>
-
-
         </div>
       </div>
 
@@ -184,7 +192,7 @@ export default function SettingsPage() {
           </div>
         </div>
         <div className="p-6 space-y-4">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-sm font-medium text-white mb-1">Delete Account</p>
               <p className="text-xs text-slate-400">

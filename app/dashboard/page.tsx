@@ -20,32 +20,6 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Welcome Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-white">Welcome back, {user?.username || 'User'}!</h2>
-          <p className="text-slate-400">Here's what's happening with your links today.</p>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href={`/${username}`}
-            target="_blank"
-            className="flex items-center gap-2 px-4 py-2 bg-[#1E293B] hover:bg-[#334155] rounded-lg border border-white/5 text-slate-200 font-medium transition-all hover:text-white group"
-          >
-            <Eye className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" />
-            <span>Preview Profile</span>
-          </Link>
-
-          <button
-            onClick={copyProfileUrl}
-            className="flex items-center gap-2 px-4 py-2 cursor-pointer bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-medium transition-all shadow-lg shadow-blue-900/20"
-          >
-            <Copy className="w-4 h-4" />
-            <span>{copied ? 'Copied!' : 'Copy URL'}</span>
-          </button>
-        </div>
-      </div>
-
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-xl border border-white/5 p-6">
@@ -108,51 +82,84 @@ export default function DashboardPage() {
           <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
           <div className="grid md:grid-cols-2 gap-4">
             <Link
-              href="/dashboard/links"
+              href={`${LIVE_URL}/${username}`}
+              target="_blank"
               className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-blue-600/10 rounded-xl border border-white/5 hover:border-blue-500/50 transition-all"
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                  <LinkIcon className="w-4 h-4" />
+                  <Eye className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-white group-hover:text-blue-400 transition-colors">Add New Link</p>
-                  <p className="text-xs text-slate-500">Create a new link for your profile</p>
+                  <p className="font-medium text-white group-hover:text-blue-400 transition-colors">Preview Profile</p>
+                  <p className="text-xs text-slate-500">View your public profile page</p>
                 </div>
               </div>
               <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
             </Link>
 
-            <Link
-              href="/dashboard/theme"
-              className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-purple-600/10 rounded-xl border border-white/5 hover:border-purple-500/50 transition-all"
+            <button
+              onClick={copyProfileUrl}
+              className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-purple-600/10 rounded-xl border border-white/5 hover:border-purple-500/50 transition-all cursor-pointer text-left"
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                  <Palette className="w-4 h-4" />
+                  <Copy className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-white group-hover:text-purple-400 transition-colors">Customize Theme</p>
-                  <p className="text-xs text-slate-500">Update your profile appearance</p>
+                  <p className="font-medium text-white group-hover:text-purple-400 transition-colors">{copied ? 'Copied!' : 'Copy Profile URL'}</p>
+                  <p className="text-xs text-slate-500">Share your profile link</p>
                 </div>
               </div>
               <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-purple-400 transition-colors" />
-            </Link>
+            </button>
 
             <Link
-              href="/dashboard/profile"
+              href="/dashboard/links"
               className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-emerald-600/10 rounded-xl border border-white/5 hover:border-emerald-500/50 transition-all"
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
-                  <User className="w-4 h-4" />
+                  <LinkIcon className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-white group-hover:text-emerald-400 transition-colors">Edit Profile</p>
-                  <p className="text-xs text-slate-500">Update bio and social links</p>
+                  <p className="font-medium text-white group-hover:text-emerald-400 transition-colors">Add New Link</p>
+                  <p className="text-xs text-slate-500">Create a new link for your profile</p>
                 </div>
               </div>
               <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+            </Link>
+
+            <Link
+              href="/dashboard/theme"
+              className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-pink-600/10 rounded-xl border border-white/5 hover:border-pink-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-pink-500/10 text-pink-400 group-hover:bg-pink-500 group-hover:text-white transition-colors">
+                  <Palette className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-medium text-white group-hover:text-pink-400 transition-colors">Customize Theme</p>
+                  <p className="text-xs text-slate-500">Update your profile appearance</p>
+                </div>
+              </div>
+              <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-pink-400 transition-colors" />
+            </Link>
+
+            <Link
+              href="/dashboard/profile"
+              className="group flex items-center justify-between p-4 bg-[#0B1120]/50 hover:bg-orange-600/10 rounded-xl border border-white/5 hover:border-orange-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                  <User className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-medium text-white group-hover:text-orange-400 transition-colors">Edit Profile</p>
+                  <p className="text-xs text-slate-500">Update bio and social links</p>
+                </div>
+              </div>
+              <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-orange-400 transition-colors" />
             </Link>
 
             <Link
@@ -226,15 +233,6 @@ export default function DashboardPage() {
                   <div>
                     <p className="text-sm font-medium text-white">Custom Themes</p>
                     <p className="text-xs text-slate-500">Unlocked</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-3 bg-[#0B1120]/50 rounded-lg border border-white/5">
-                  <div className="p-2 rounded-lg bg-purple-500/10">
-                    <TrendingUp className="w-4 h-4 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-white">Advanced Analytics</p>
-                    <p className="text-xs text-slate-500">Active</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-[#0B1120]/50 rounded-lg border border-white/5">
